@@ -23,3 +23,5 @@ async function startServer() {
 }
 
 startServer();
+// 🚨 EXPORTACIÓN CLAVE PARA VERCEL (Exporta la aplicación Express)
+export default app;
