@@ -1,0 +1,408 @@
+.nivel-visual-container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  background: rgba(240, 240, 240, 0.3);
+  font-family: "Poppins", sans-serif;
+}
+
+.lado-izquierdo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.15);
+  border-right: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.circulo-nivel {
+  width: 150px;
+  height: 150px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #9b2d30;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  margin-bottom: 1rem;
+}
+
+.mensaje-completado {
+  color: green;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+.lado-derecho {
+  flex: 3;
+  padding: 1rem;
+  overflow-y: auto;
+  min-width: 0;
+}
+
+.contenido-multimedia {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+  min-height: 100%; /* Similar a DondeComprar */
+}
+
+.nivel-column-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 15px;
+  min-width: 250px; /* Aumentado para estabilidad */
+  box-sizing: border-box; /* Como en DondeComprar */
+}
+
+.video-nivel,
+.infografias-nivel,
+.imagen-nivel {
+  background: rgba(255, 255, 255, 0.25);
+  padding: 0.8rem;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.video-nivel h3,
+.infografias-nivel h3,
+.imagen-nivel h3 {
+  color: white;
+  margin-bottom: 0.8rem;
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+.video-nivel iframe {
+  width: 100%;
+  height: 250px;
+  border-radius: 10px;
+  border: none;
+  min-width: 150px;
+}
+
+.infografias-nivel {
+  min-height: 150px; /* Control específico */
+  overflow: hidden; /* Evita desbordamiento */
+}
+
+.imagen-nivel img {
+  width: 100%;
+  max-width: 350px;
+  border-radius: 10px;
+  display: block;
+  margin: 0 auto;
+}
+
+.btn-completar {
+  margin-top: 1.5rem;
+  padding: 0.6rem 1.5rem;
+  background: #9b2d30;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  width: fit-content;
+  align-self: center;
+}
+
+.btn-completar:hover {
+  background: #ffb7c5;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+  .nivel-visual-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .lado-izquierdo {
+    flex: none;
+    width: 100%;
+    border-right: none;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 0.5rem 0;
+  }
+
+  .lado-derecho {
+    flex: none;
+    width: 100%;
+    padding: 0.5rem;
+  }
+
+  .nivel-column-container {
+    max-width: 100%;
+    padding: 0 5px;
+    min-width: 200px;
+  }
+
+  .video-nivel iframe {
+    height: 150px; /* Reducido */
+  }
+
+  .infografias-nivel {
+    min-height: 100px; /* Reducido */
+  }
+
+  .circulo-nivel {
+    width: 100px;
+    height: 100px;
+    font-size: 1.2rem;
+  }
+
+  .imagen-nivel img {
+    max-width: 100%;
+  }
+
+  .video-nivel h3,
+  .infografias-nivel h3,
+  .imagen-nivel h3 {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .video-nivel iframe {
+    height: 120px; /* Más reducción */
+  }
+
+  .infografias-nivel {
+    min-height: 80px; /* Más reducción */
+  }
+
+  .btn-completar {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+/* === Helpers responsivos multimedia === */
+
+/* Título fluido sin gritar en móvil */
+.resp-title {
+  font-size: clamp(1rem, 2.5vw, 1.125rem); /* ~16–18px */
+  line-height: 1.25;
+  color: #ffffff; /* mantiene tu contraste actual en h3 */
+  text-align: center;
+  margin-bottom: 0.8rem;
+}
+
+/* Wrapper 16:9 por defecto (video/infografía) */
+.media-aspect {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+/* Variante 4:3 (imagen ilustrativa) */
+.media-aspect-43 {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+/* Hijo que ocupa todo el contenedor responsivo */
+.media-el {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+/* 🔧 Ajustes finos del layout existente */
+.nivel-visual-container {
+  display: flex;
+  width: 100%;
+  /* Evita 100vh en móvil (te creaba cortes con barras del navegador).
+     Usamos min-height para desktop y permitimos crecimiento en móvil. */
+  min-height: 100vh;
+  height: auto;
+}
+
+.lado-izquierdo {
+  /* sin cambios cromáticos */
+  min-width: 0; /* <-- clave para que no empuje al lado derecho */
+}
+
+.lado-derecho {
+  flex: 3;
+  padding: 1rem;
+  overflow-y: auto;
+  min-width: 0; /* <-- evita desbordes/scroll horizontal */
+}
+
+/* Elimina altura fija del iframe: nos apoyamos en aspect-ratio */
+.video-nivel iframe,
+.video-iframe {
+  height: 100% !important;
+  min-height: 0 !important;
+}
+
+/* Infografía: permite ocupar el alto del wrapper */
+.infografias-nivel {
+  /* quitamos min-height agresivo en móvil; dejamos que el wrapper gobierne */
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Imagen: ya controlada por .media-aspect-43 + object-contain */
+.imagen-nivel img {
+  max-width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Ajustes responsivos previos: mantenemos, pero sin forzar alturas */
+@media (max-width: 768px) {
+  .nivel-visual-container {
+    flex-direction: column;
+    /* altura la gobierna el contenido */
+  }
+  .lado-izquierdo,
+  .lado-derecho {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .nivel-column-container {
+    max-width: 100%;
+    padding: 0 8px;
+    min-width: 0; /* permite encoger sin romper */
+  }
+
+  /* No forzamos altura de iframe aquí */
+  .video-nivel iframe {
+    height: 100% !important;
+  }
+
+  .infografias-nivel {
+    min-height: 0;
+  }
+
+  .circulo-nivel {
+    width: 100px;
+    height: 100px;
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Sin alturas fijas: aspect-ratio decide */
+  .infografias-nivel {
+    min-height: 0;
+  }
+}
+@media (max-width: 640px) {
+  .background-blur {
+    opacity: 0.08; /* menos intrusivo en móvil */
+    filter: blur(2px); /* blur ligero */
+    pointer-events: none; /* no bloquear toques */
+  }
+}
+/* Activa scroll dentro del wrapper SOLO para la infografía */
+.media-aspect--scroll {
+  overflow: auto; /* habilita scroll si el contenido se pasa */
+}
+
+/* El área que realmente scrollea (touch + mouse) */
+.media-scroll-area {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* vertical y horizontal */
+  -webkit-overflow-scrolling: touch; /* inercia en iOS */
+  overscroll-behavior: contain; /* evita “rebotar” al body */
+  touch-action: pan-x pan-y; /* habilita gesto táctil */
+  scrollbar-gutter: stable both-edges; /* opcional: evita “saltos” de layout */
+}
+
+/* (Opcional) Estiliza scrollbar en navegadores WebKit */
+.media-scroll-area::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+.media-scroll-area::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+}
+.media-scroll-area::-webkit-scrollbar-track {
+  background: transparent;
+}
+/* === REDES SOCIALES - ESTILO CORPORATIVO PREMIUM === */
+.social-links {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.social-icon {
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 68, 68, 0.12);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 68, 68, 0.18);
+}
+
+.social-link:hover .social-icon {
+  background: rgba(255, 68, 68, 0.22);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(255, 68, 68, 0.25);
+}
+
+.social-icon .icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1));
+}
+/* ¡EL EFECTO QUE TE ENCANTÓ! */
+.social-link:hover .icon-img {
+ background: rgba(255, 68, 68, 0.22);
+  transform: scale(2.0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .social-links {
+    gap: 0.8rem;
+  }
+  .social-icon {
+    width: 40px;
+    height: 40px;
+  }
+}

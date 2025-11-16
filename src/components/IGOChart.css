@@ -1,0 +1,231 @@
+/* IGOChart.css - Versión REFINADA CON CSO BAR Y AJUSTES DE SUPERPOSICIÓN */
+
+/* Definición de la animación de pulsación para el gráfico */
+@keyframes chart-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(44, 169, 188, 0.4); /* Color del teal de Omotenashi */
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(44, 169, 188, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(44, 169, 188, 0);
+  }
+}
+
+.igo-chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Esto centra los elementos hijos horizontalmente */
+  gap: 2rem;
+  padding: 1rem;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  /* border: 2px dashed purple; /* DIAGNÓSTICO: Borde para ver el contenedor principal. Descomentar para depurar */
+}
+
+.chart-wrapper {
+  width: 100%;
+  position: relative;
+  min-height: 350px; /* Esto es clave para el tamaño del gráfico en escritorio */
+  max-height: 450px; /* Limita la altura en pantallas muy grandes */
+  aspect-ratio: 1/1; /* Mantiene una proporción cuadrada si el min-height no es suficiente */
+  display: flex; /* Para centrar el canvas si es más pequeño */
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Importante para el canvas */
+  border-radius: 10px; /* Bordes redondeados si quieres para la sombra */
+  /* Animación de pulsación para el gráfico */
+  animation: chart-pulse 1.5s ease-out 0.5s 1; /* Nombre, duración, tipo, retraso, repeticiones */
+  /* border: 2px solid red; /* DIAGNÓSTICO: Borde para ver el wrapper del gráfico. Descomentar para depurar */
+}
+
+/* Asegura que el canvas de Chart.js sea responsivo dentro de su contenedor */
+.chart-wrapper canvas {
+    width: 100% !important;
+    height: 100% !important; /* Asegura que ocupe la altura completa del wrapper */
+}
+
+/* Estilos para la barra de CSO (lado derecho) - REVERTIDO A TU VERSIÓN ORIGINAL, CON AJUSTES */
+.cso-bar-container {
+  display: flex;
+  flex-direction: column; /* Lo tuyo era column, lo mantenemos */
+  align-items: center; /* Centrar la barra y los elementos dentro de su columna */
+  gap: 0.8rem; /* Espacio entre barra y leyenda de la barra */
+  width: auto; /* Que ocupe solo el ancho necesario para la barra y su indicador */
+  position: relative;
+  margin-top: 1rem;
+  /* Glassmorphism sutil en la barra */
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.3);
+  padding: 0 10px; /* Un poco de padding horizontal para contener la flecha si sale */
+}
+
+.cso-bar {
+  width: 20px;
+  height: 200px;
+  background: linear-gradient(to top, #ff4444 0%, #ffca28 50%, #2ca9bc 100%); /* Gradiente de color */
+  border-radius: 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cso-bar-fill {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.3); /* Fondo transparente que permite ver el gradiente */
+  transition: height 0.8s ease-in-out; /* Animación de llenado */
+}
+
+/* Contenedor del indicador de resultado CSO (flecha y valor) */
+.cso-result-indicator {
+  display: flex;
+  align-items: center;
+  position: absolute; /* Es absoluto respecto a .cso-bar-container */
+  /* 'right' y 'bottom' se establecerán en IGOChart.tsx con JS para un posicionamiento preciso */
+  gap: 0.2rem; /* Espacio entre flecha y valor */
+  pointer-events: none; /* Crucial: permite hacer clic "a través" de este div */
+}
+
+.cso-value-label {
+  font-weight: bold;
+  color: #ff4444; /* Color rojo como en tu CSS original */
+  font-size: 1.2rem;
+  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 0.3rem 0.6rem;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  /* Los márgenes fijos se eliminan, el posicionamiento se hace en JS con 'bottom' y 'right' */
+}
+
+.cso-arrow-indicator {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+  /* Los márgenes fijos se eliminan */
+}
+
+.cso-arrow-indicator:hover {
+  transform: scale(1.1);
+}
+
+.cso-arrow-indicator svg {
+  width: 100%;
+  height: 100%;
+}
+
+.cso-legend {
+  font-size: 0.9rem;
+  color: #555; /* Color de texto ajustado para mejor legibilidad */
+  text-align: left;
+  background: rgba(255, 255, 255, 0.2); /* Fondo semitransparente para glassmorphism */
+  backdrop-filter: blur(6px); /* Efecto de desenfoque */
+  -webkit-backdrop-filter: blur(6px); /* Para compatibilidad con Safari */
+  padding: 1rem;
+  border-radius: 12px;
+  max-width: 100%;
+  box-sizing: border-box;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05); /* Sombra sutil */
+  /* border: 2px solid blue; /* DIAGNÓSTICO: Borde para ver la leyenda. Descomentar para depurar */
+}
+
+.cso-legend p {
+  margin-bottom: 0.5rem;
+}
+
+.cso-legend strong {
+    color: #ff4444; /* Color rojo para el título "Interpretación del resultado" */
+}
+
+.chart-footer {
+  margin-top: 2rem;
+  text-align: center;
+  width: 100%;
+  display: flex; /* Permite centrar el botón */
+  justify-content: center; /* Centra el botón horizontalmente */
+}
+
+.download-button {
+  padding: 0.8rem 1.5rem;
+  background-color: #9b2d30;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+  box-sizing: border-box;
+  width: fit-content;
+}
+
+.download-button:hover {
+  transform: scale(1.08);
+  background-color: #b43c3c;
+}
+
+.animated-button {
+  animation: pulse 1.5s infinite; /* Esta animación es para el botón si se aplica */
+}
+
+/* Keyframes para la animación del botón, si es que se usa en otra parte */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(155, 45, 48, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(155, 45, 48, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(155, 45, 48, 0);
+  }
+}
+
+/* Clase genérica de Glassmorphism (puedes aplicarla a otros elementos HTML) */
+.glassmorphic {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 1.5rem;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Media Query para pantallas más pequeñas (MÓVIL) */
+@media (max-width: 768px) { /* Ajustado a 768px para una detección de móvil más estándar */
+  .igo-chart-container {
+    padding: 0.5rem; /* Menos padding en móvil */
+  }
+
+  .chart-wrapper {
+    min-height: 280px; /* Altura más compacta para móvil */
+    aspect-ratio: 1/1; /* Fuerza que el gráfico sea cuadrado, ocupando el ancho disponible */
+    height: auto; /* Asegura que la altura se ajuste según el aspect-ratio */
+  }
+
+  .cso-bar-container {
+    height: 150px; /* Altura de la barra más compacta en móvil */
+  }
+
+  /* El posicionamiento de la flecha/valor se gestionará mayormente en JS, pero si necesitas un ajuste fino: */
+  .cso-value-label {
+    font-size: 0.85rem;
+  }
+  .cso-arrow-indicator {
+    width: 20px; /* Ajuste el tamaño de la flecha en móvil */
+    height: 20px;
+    /* Considera ajustar el 'left' o 'right' de la flecha en JS si no queda bien con 0px */
+  }
+
+  .cso-legend {
+    font-size: 0.8rem;
+    padding: 0.8rem; /* Menos padding en móvil */
+  }
+}

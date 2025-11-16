@@ -1,0 +1,891 @@
+// Importaciones existentes (mantén las que ya tienes, incluyendo useRef)
+import React, { useState, useEffect, useRef } from "react";
+import "./BlogExperiencias.css";
+import PostCard from "./PostCard"; // Asegúrate de que PostCard esté definido o exista
+import ExperienceCard from "./ExperienceCard"; // Asegúrate de que ExperienceCard esté definido o exista
+import confetti from "canvas-confetti";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Añade esta importación si no la tienes
+import {
+  faHeart,
+  faComment,
+  faShareAlt,
+  faLocationDot,
+} from "@fortawesome/free-solid-svg-icons";
+
+// Tipos (mantén los que ya tienes)
+export interface Comment {
+  id: number;
+  user: string;
+  profilePic: string;
+  text: string;
+  replies: Comment[];
+  likes: number;
+}
+
+export interface Post {
+  id: number;
+  title: string;
+  content: string;
+  image?: string;
+  likes: number;
+  comments: Comment[];
+}
+
+export interface Experience {
+  id: number;
+  title: string;
+  description: string;
+  location: string;
+  image?: string; // Hago que image sea opcional para el caso inicial de placeholder
+  sakuras: number;
+  user: string;
+  profilePic: string;
+}
+
+// Actualizamos el tipo del formulario para que coincida con el ENUM de la DB
+type FormExperienceType = "historias_inspiran" | "necesitas_omotenashi";
+
+const BlogExperiencias: React.FC = () => {
+  // Datos ficticios (mantén los que ya tienes)
+  const [posts, setPosts] = useState<Post[]>([
+    {
+      id: 1,
+      title: "Mi primera experiencia con Omotenashi",
+      content:
+        "Descubrí el concepto en un restaurante en Tokio, donde el mesero anticipó todas mis necesidades sin que tuviera que pedir nada. Fue una experiencia mágica que me dejó con ganas de aplicar Omotenashi en mi vida diaria.",
+      image: "https://via.placeholder.com/300x200",
+      likes: 5,
+      comments: [
+        {
+          id: 1,
+          user: "Ana García",
+          profilePic:
+            "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+          text: "¡Qué increíble! Me recuerda a un restaurante en Osaka donde también viví algo similar.",
+          replies: [],
+          likes: 0,
+        },
+        {
+          id: 2,
+          user: "Pedro López",
+          profilePic:
+            "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+          text: "Eso es Omotenashi puro. Gracias por compartir.",
+          replies: [],
+          likes: 0,
+        },
+        {
+          id: 3,
+          user: "María Fernández",
+          profilePic:
+            "https://images.unsplash.com/photo-1517841903200-7b8d4b3e841e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+          text: "Me encantaría visitar ese lugar algún día.",
+          replies: [],
+          likes: 0,
+        },
+        {
+          id: 4,
+          user: "Juan Pérez",
+          profilePic:
+            "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+          text: "El Omotenashi es lo que hace que Japón sea tan especial.",
+          replies: [],
+          likes: 0,
+        },
+        {
+          id: 5,
+          user: "Laura Martínez",
+          profilePic:
+            "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+          text: "¡Qué historia tan inspiradora!",
+          replies: [],
+          likes: 0,
+        },
+        {
+          id: 6,
+          user: "Carlos Gómez",
+          profilePic:
+            "https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+          text: "Definitivamente quiero aplicar esto en mi negocio.",
+          replies: [],
+          likes: 0,
+        },
+        {
+          id: 7,
+          user: "Sofía Rodríguez",
+          profilePic:
+            "https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+          text: "El servicio en Japón es otro nivel.",
+          replies: [],
+          likes: 0,
+        },
+        {
+          id: 8,
+          user: "Diego Morales",
+          profilePic:
+            "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+          text: "Me hace querer viajar a Tokio ahora mismo.",
+          replies: [],
+          likes: 0,
+        },
+        {
+          id: 9,
+          user: "Clara Sánchez",
+          profilePic:
+            "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+          text: "¡Qué bonito! Gracias por compartir tu experiencia.",
+          replies: [],
+          likes: 0,
+        },
+        {
+          id: 10,
+          user: "Andrés Torres",
+          profilePic:
+            "https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+          text: "Eso es lo que hace que Omotenashi sea tan especial.",
+          replies: [],
+          likes: 0,
+        },
+        {
+          id: 11,
+          user: "Valeria Díaz",
+          profilePic:
+            "https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+          text: "Me encantó leer esto, muy inspirador.",
+          replies: [],
+          likes: 0,
+        },
+        {
+          id: 12,
+          user: "Felipe Castro",
+          profilePic:
+            "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+          text: "El Omotenashi debería ser un estándar global.",
+          replies: [],
+          likes: 0,
+        },
+        {
+          id: 13,
+          user: "Camila Ruiz",
+          profilePic:
+            "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+          text: "Qué experiencia tan maravillosa.",
+          replies: [],
+          likes: 0,
+        },
+        {
+          id: 14,
+          user: "Mateo Vargas",
+          profilePic:
+            "https://images.unsplash.com/photo-1544723795-3fb6469f7b39?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+          text: "Me hace pensar en cómo mejorar mi propio servicio.",
+          replies: [],
+          likes: 0,
+        },
+        {
+          id: 15,
+          user: "Lucía Hernández",
+          profilePic:
+            "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+          text: "¡Qué lindo! Me encantaría vivir eso.",
+          replies: [],
+          likes: 0,
+        },
+        {
+          id: 16,
+          user: "Gabriel Ortiz",
+          profilePic:
+            "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+          text: "El Omotenashi es pura magia.",
+          replies: [],
+          likes: 0,
+        },
+        {
+          id: 17,
+          user: "Isabela Ramírez",
+          profilePic:
+            "https://images.unsplash.com/photo-1517841903200-7b8d4b3e841e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+          text: "Gracias por compartir, me inspira mucho.",
+          replies: [],
+          likes: 0,
+        },
+        {
+          id: 18,
+          user: "Sebastián Mendoza",
+          profilePic:
+            "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+          text: "Eso es lo que hace que Japón sea único.",
+          replies: [],
+          likes: 0,
+        },
+        {
+          id: 19,
+          user: "Paula Gómez",
+          profilePic:
+            "https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+          text: "Qué historia tan bonita.",
+          replies: [],
+          likes: 0,
+        },
+        {
+          id: 20,
+          user: "Ricardo Silva",
+          profilePic:
+            "https://images.unsplash.com/photo-1527980965255-d3b416303d12?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+          text: "El Omotenashi es increíble, gracias por contarlo.",
+          replies: [],
+          likes: 0,
+        },
+      ],
+    },
+  ]);
+
+  const [experiences, setExperiences] = useState<Experience[]>([
+    {
+      id: 1,
+      title: "Servicio excepcional en un hotel de Kyoto",
+      description:
+        "El personal anticipó cada necesidad con una sonrisa cálida.",
+      location: "Kyoto, Japón",
+      image: "https://via.placeholder.com/300x200",
+      sakuras: 10,
+      user: "Ana García",
+      profilePic:
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+    },
+    {
+      id: 2,
+      title: "Atención impecable en un restaurante de Cali",
+      description:
+        "El mesero nos trató como familia, una experiencia inolvidable.",
+      location: "Cali, Colombia",
+      image: "https://via.placeholder.com/300x200",
+      sakuras: 8,
+      user: "Pedro López",
+      profilePic:
+        "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+    },
+    {
+      id: 3,
+      title: "Hospitalidad en una tienda de Tokio",
+      description:
+        "Me ayudaron a encontrar el regalo perfecto con mucha paciencia.",
+      location: "Tokio, Japón",
+      image: "https://via.placeholder.com/300x200",
+      sakuras: 12,
+      user: "María Fernández",
+      profilePic:
+        "https://images.unsplash.com/photo-1517841903200-7b8d4b3e841e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+    },
+  ]);
+
+  const [naboExperiences, setNaboExperiences] = useState<Experience[]>([
+    {
+      id: 1,
+      title: "Mala atención en un café",
+      description: "El personal fue indiferente y tardó mucho en atender.",
+      location: "Bogotá, Colombia",
+      image: "https://via.placeholder.com/300x200",
+      sakuras: 0,
+      user: "Juan Pérez",
+      profilePic:
+        "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+    },
+  ]);
+
+  const [faq] = useState([
+    {
+      question: "¿Qué es el Omotenashi?",
+      answer:
+        "Omotenashi es la hospitalidad japonesa que busca anticiparse a las necesidades del huésped sin esperar nada a cambio.",
+    },
+    {
+      question: "¿Conocías el Omotenashi?",
+      answer:
+        "Es posible que hayas experimentado Omotenashi sin saberlo, como en un servicio excepcionalmente atento.",
+    },
+    {
+      question: "¿El Omotenashi ya hace parte de tu vida?",
+      answer:
+        "Puedes integrarlo practicando empatía y atención al detalle en tus interacciones diarias.",
+    },
+    {
+      question: "¿Dónde se aplica Omotenashi?",
+      answer:
+        "En restaurantes, hoteles, hogares, y cualquier interacción humana donde se priorice el cuidado.",
+    },
+  ]);
+
+  // Estados
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  // El tipo para el formulario ahora usa los nombres de la DB directamente para simplificar.
+  // Si hiciste el reemplazo masivo, esto ya estará actualizado.
+  const [formType, setFormType] = useState<FormExperienceType | null>(null);
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    location: "",
+    image: null as File | null,
+  });
+  const [isBlogModalOpen, setIsBlogModalOpen] = useState(false);
+  const [newBlogData, setNewBlogData] = useState({
+    title: "",
+    content: "",
+    image: null as File | null,
+  });
+  const [isEmbajadorExpanded, setIsEmbajadorExpanded] = useState(false);
+  const [bubblePosition, setBubblePosition] = useState({
+    x: window.innerWidth - 80,
+    y: 20,
+  });
+
+  // Burbuja movible (se mantiene igual)
+  const bubbleRef = useRef<HTMLDivElement>(null);
+  const expandedRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragTarget, setDragTarget] = useState<"bubble" | "expanded" | null>(
+    null
+  );
+
+  useEffect(() => {
+    const savedPosition = localStorage.getItem("bubblePosition");
+    if (savedPosition) {
+      setBubblePosition(JSON.parse(savedPosition));
+    }
+  }, []);
+
+  const handleMouseDown = (
+    e: React.MouseEvent,
+    target: "bubble" | "expanded"
+  ) => {
+    setIsDragging(true);
+    setDragTarget(target);
+    e.stopPropagation();
+  };
+
+  const handleMouseMove = (e: MouseEvent) => {
+    if (isDragging && dragTarget) {
+      const ref = dragTarget === "bubble" ? bubbleRef : expandedRef;
+      if (ref.current) {
+        const newX = e.clientX - 30;
+        const newY = e.clientY - 30;
+        const boundedX = Math.max(
+          0,
+          Math.min(newX, window.innerWidth - (isEmbajadorExpanded ? 300 : 60))
+        );
+        const boundedY = Math.max(
+          0,
+          Math.min(newY, window.innerHeight - (isEmbajadorExpanded ? 200 : 60))
+        );
+        setBubblePosition({ x: boundedX, y: boundedY });
+        localStorage.setItem(
+          "bubblePosition",
+          JSON.stringify({ x: boundedX, y: boundedY })
+        );
+      }
+    }
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    setDragTarget(null);
+  };
+
+  useEffect(() => {
+    if (isDragging) {
+      window.addEventListener("mousemove", handleMouseMove);
+      window.addEventListener("mouseup", handleMouseUp);
+    }
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [isDragging]);
+
+  // Manejadores (se mantienen iguales, salvo por la invocación desde las nuevas tarjetas)
+  const handleSakura = (expId: number, add: boolean) => {
+    setExperiences(
+      experiences.map((exp) =>
+        exp.id === expId
+          ? {
+              ...exp,
+              sakuras: add ? exp.sakuras + 1 : Math.max(0, exp.sakuras - 1),
+            }
+          : exp
+      )
+    );
+  };
+
+  const handleFormChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (
+      file &&
+      (file.type === "image/jpeg" || file.type === "image/png") &&
+      file.size < 5 * 1024 * 1024
+    ) {
+      setFormData({ ...formData, image: file });
+    } else {
+      alert("Por favor, sube una imagen JPG o PNG menor a 5MB.");
+    }
+  };
+
+  // --- ESTA ES LA FUNCIÓN handleSubmit ACTUALIZADA PARA EL BACKEND ---
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Paso 1: Mapear formType (que es "historias_inspiran" o "necesitas_omotenashi" del frontend) a los valores del ENUM de la base de datos
+    let postType: "historias_inspiran" | "necesitas_omotenashi";
+    if (formType === "historias_inspiran") {
+      postType = "historias_inspiran";
+    } else if (formType === "necesitas_omotenashi") {
+      postType = "necesitas_omotenashi";
+    } else {
+      alert(
+        "Tipo de experiencia no válido. Por favor, selecciona una categoría."
+      );
+      return;
+    }
+
+    // Paso 2: Validar que los campos requeridos no estén vacíos
+    if (
+      !formData.title.trim() ||
+      !formData.description.trim() ||
+      !formData.location.trim()
+    ) {
+      alert(
+        "Por favor, completa todos los campos requeridos (Título, Descripción, Ubicación)."
+      );
+      return;
+    }
+
+    // Paso 3: Preparar los datos para enviar al backend usando FormData
+    const dataToSend = new FormData();
+    dataToSend.append("title", formData.title);
+    dataToSend.append("content", formData.description); // 'description' del frontend va a 'content' en la DB
+    dataToSend.append("type", postType); // Enviamos el valor del ENUM a la DB
+    dataToSend.append("location", formData.location);
+    // IMPORTANTE: user_id debe ser dinámico una vez que implementes autenticación.
+    // Por ahora, usamos un ID fijo (e.g., 1) para poder guardar el post.
+    dataToSend.append("user_id", "1"); // <-- ¡RECORDATORIO: Cambiar esto con autenticación real!
+
+    if (formData.image) {
+      dataToSend.append("image", formData.image);
+    }
+
+    // Paso 4: Enviar la petición POST al backend
+    try {
+      const response = await fetch("http://localhost:3001/api/posts", {
+        method: "POST",
+        body: dataToSend, // FormData se encarga de configurar el 'Content-Type' adecuado
+      });
+
+      // Paso 5: Manejar la respuesta del backend
+      if (!response.ok) {
+        // Si la respuesta no es exitosa (ej. 400, 500)
+        const errorData = await response.json();
+        throw new Error(
+          errorData.message || "Error desconocido al enviar la experiencia."
+        );
+      }
+
+      const result = await response.json(); // Parsea la respuesta JSON del servidor
+      console.log("Experiencia enviada con éxito:", result);
+      alert("¡Experiencia enviada con éxito! Gracias por compartir.");
+
+      // Paso 6: Actualizar el estado del frontend solo si la operación fue exitosa en el backend
+      const newExperience: Experience = {
+        id: result.id, // Usa el ID que te devuelve la base de datos
+        title: formData.title,
+        description: formData.description,
+        location: formData.location,
+        image:
+          result.imageUrl ||
+          (formData.image
+            ? URL.createObjectURL(formData.image)
+            : "https://via.placeholder.com/300x200"),
+        sakuras: 0,
+        user: "Usuario Registrado", // Placeholder: debería venir de la sesión del usuario
+        profilePic:
+          "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80", // Placeholder
+      };
+
+      if (postType === "historias_inspiran") {
+        // Usa postType que es el valor del ENUM de la DB
+        setExperiences((prev) => [...prev, newExperience]);
+      } else {
+        // 'necesitas_omotenashi'
+        setNaboExperiences((prev) => [...prev, newExperience]);
+      }
+
+      // Limpiar el formulario y cerrar el modal
+      setFormData({ title: "", description: "", location: "", image: null });
+      setFormType(null); // Esto cierra el modal
+
+      // Disparar confeti si es una historia inspiradora (Omotenashi)
+      if (postType === "historias_inspiran") {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 },
+          colors: ["#ff4444", "#ff6666", "#ffffff"],
+        });
+      }
+    } catch (error: any) {
+      console.error("Error al enviar la experiencia:", error.message);
+      alert(`No se pudo enviar la experiencia: ${error.message}`);
+    }
+  };
+  // --- FIN DE LA FUNCIÓN handleSubmit ACTUALIZADA ---
+
+  const handleBlogFormChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setNewBlogData({ ...newBlogData, [name]: value });
+  };
+
+  const handleBlogImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (
+      file &&
+      (file.type === "image/jpeg" || file.type === "image/png") &&
+      file.size < 5 * 1024 * 1024
+    ) {
+      setNewBlogData({ ...newBlogData, image: file });
+    } else {
+      alert("Por favor, sube una imagen JPG o PNG menor a 5MB.");
+    }
+  };
+
+  const handleBlogSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newBlogData.title.trim() || !newBlogData.content.trim()) {
+      alert("El título y el contenido son obligatorios.");
+      return;
+    }
+
+    const newPost: Post = {
+      id: posts.length + 1,
+      title: newBlogData.title,
+      content: newBlogData.content,
+      image: newBlogData.image
+        ? URL.createObjectURL(newBlogData.image)
+        : "https://via.placeholder.com/300x200",
+      likes: 0,
+      comments: [],
+    };
+
+    setPosts([...posts, newPost]);
+    setNewBlogData({ title: "", content: "", image: null });
+    setIsBlogModalOpen(false);
+  };
+
+  // Embajador (se mantiene igual)
+  const topExperiences = experiences
+    .sort((a, b) => b.sakuras - a.sakuras)
+    .slice(0, 3);
+  const maxSakuras = Math.max(...experiences.map((exp) => exp.sakuras), 1);
+  const racePositions = topExperiences.map((exp) => ({
+    user: exp.user,
+    profilePic: exp.profilePic,
+    sakuras: exp.sakuras,
+    position: (exp.sakuras / maxSakuras) * 80,
+  }));
+
+  const handleEmbajadorToggle = () => {
+    setIsEmbajadorExpanded(!isEmbajadorExpanded);
+    if (!isEmbajadorExpanded) {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ["#ff4444", "#ff6666", "#ffffff"],
+      });
+    }
+  };
+
+  return (
+    <div className="blog-experiencias-container main-under-header">
+      <h1 className="main-title">Blog & Experiencias</h1>
+      <p className="welcome-subtitle">
+        Bienvenidos al único blog donde cada experiencia cuenta, donde
+        comentamos para afectar positivamente nuestro entorno y creamos una
+        atmósfera que invita a cambiar para mejorar y contagiar el cambio para
+        impactar.
+      </p>
+      <button
+        className="submit-button"
+        onClick={() => setIsBlogModalOpen(true)}
+      >
+        Crear Nuevo Blog
+      </button>
+      {/* Blog Posts */}
+      <section className="blog-posts">
+        <h2 className="section-title">Últimas Entradas</h2>
+        {posts.map((post) => (
+          <PostCard
+            key={post.id}
+            post={post}
+            setPosts={setPosts}
+            currentCommentPage={1}
+            commentsPerPage={5}
+          />
+        ))}
+      </section>
+      {/* FAQ */}
+      <section className="faq-section">
+        <h2 className="section-title">Preguntas Frecuentes sobre Omotenashi</h2>
+        {faq.map((item, index) => (
+          <div key={index} className="faq-item">
+            <button
+              className={`faq-question ${activeFaq === index ? "active" : ""}`}
+              onClick={() => setActiveFaq(activeFaq === index ? null : index)}
+              aria-label={`Mostrar respuesta para ${item.question}`}
+            >
+              {item.question}
+            </button>
+            <div className="faq-answer">{item.answer}</div>
+          </div>
+        ))}
+      </section>
+      ---
+      {/* Omotenashi: Historias que Inspiran (ANTES Omotenashi de historias_inspiran) */}
+      <section className="historias_inspiran-section">
+        <h2 className="section-title">Omotenashi: Historias que Inspiran</h2>
+        {/* Aquí la llamada a setFormType sigue usando "historias_inspiran" */}
+        <div
+          className="postulate-card"
+          onClick={() => setFormType("historias_inspiran")}
+        >
+          <img
+            src="/images/onigirifeliz.png"
+            alt="Postular Historia Feliz"
+            className="postulate-card-image"
+          />
+          <span className="postulate-card-text">Postular Experiencia</span>
+        </div>
+        {experiences.map((exp) => (
+          <ExperienceCard
+            key={exp.id}
+            experience={exp}
+            type="historias_inspiran" // Este 'type' es para la prop del componente ExperienceCard, no afecta el backend
+            handleSakura={handleSakura}
+            isWinner={
+              exp.sakuras === Math.max(...experiences.map((e) => e.sakuras))
+            }
+          />
+        ))}
+      </section>
+      ---
+      {/* Hey Necesitas Omotenashi! (ANTES necesitas_omotenashi) */}
+      <section className="necesitas_omotenashi-section">
+        <h2 className="section-title">Hey Necesitas Omotenashi!</h2>
+        <p className="necesitas_omotenashi-warning">
+          Reglas: Máximo 1000 caracteres, tono constructivo y respetuoso.
+        </p>
+        {/* Aquí la llamada a setFormType sigue usando "necesitas_omotenashi" */}
+        <div
+          className="postulate-card"
+          onClick={() => setFormType("necesitas_omotenashi")}
+        >
+          <img
+            src="/images/onigiritriste.png"
+            alt="Postular Experiencia a Mejorar"
+            className="postulate-card-image"
+          />
+          <span className="postulate-card-text">Postular Experiencia</span>
+        </div>
+        {naboExperiences.map((exp) => (
+          <ExperienceCard
+            key={exp.id}
+            experience={exp}
+            type="necesitas_omotenashi" // Este 'type' es para la prop del componente ExperienceCard, no afecta el backend
+            handleSakura={handleSakura}
+            isWinner={false}
+          />
+        ))}
+      </section>
+      {/* Formulario de Postulación (el contenido interno se mantiene igual) */}
+      {formType && (
+        <div className="form-overlay">
+          <div className="form-container glassmorphic">
+            {/* El texto del título del modal sigue basándose en "historias_inspiran" o "necesitas_omotenashi" */}
+            <h3>
+              {formType === "historias_inspiran"
+                ? "Postular Omotenashi: Historias que Inspiran"
+                : "Postular Hey Necesitas Omotenashi!"}
+            </h3>
+            <form onSubmit={handleSubmit}>
+              {" "}
+              {/* Asegúrate de que este onSubmit llama a la nueva handleSubmit */}
+              <label>
+                Título:
+                <input
+                  type="text"
+                  name="title"
+                  value={formData.title}
+                  onChange={handleFormChange}
+                  required
+                  aria-label="Título de la experiencia"
+                />
+              </label>
+              <label>
+                Descripción:
+                <textarea
+                  name="description"
+                  value={formData.description}
+                  onChange={handleFormChange}
+                  maxLength={1000}
+                  required
+                  aria-label="Descripción de la experiencia"
+                />
+              </label>
+              <label>
+                Ubicación:
+                <input
+                  type="text"
+                  name="location"
+                  value={formData.location}
+                  onChange={handleFormChange}
+                  required
+                  aria-label="Ubicación de la experiencia"
+                />
+              </label>
+              <label>
+                Imagen (opcional):
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png"
+                  onChange={handleImageUpload}
+                  aria-label="Subir imagen para la experiencia"
+                />
+              </label>
+              <div className="form-actions">
+                <button type="submit">Enviar</button>
+                <button type="button" onClick={() => setFormType(null)}>
+                  Cancelar
+                </button>{" "}
+                {/* Este botón cierra el modal */}
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+      {/* Formulario de Nuevo Blog (se mantiene igual) */}
+      {isBlogModalOpen && (
+        <div className="form-overlay">
+          <div className="form-container glassmorphic">
+            <h3>Crear Nuevo Blog</h3>
+            <form onSubmit={handleBlogSubmit}>
+              <label>
+                Título:
+                <input
+                  type="text"
+                  name="title"
+                  value={newBlogData.title}
+                  onChange={handleBlogFormChange}
+                  required
+                  aria-label="Título del nuevo blog"
+                />
+              </label>
+              <label>
+                Contenido:
+                <textarea
+                  name="content"
+                  value={newBlogData.content}
+                  onChange={handleBlogFormChange}
+                  required
+                  maxLength={5000}
+                  aria-label="Contenido del nuevo blog"
+                />
+              </label>
+              <label>
+                Imagen (opcional):
+                <input
+                  type="file"
+                  accept="image/jpeg,image/png"
+                  onChange={handleBlogImageUpload}
+                  aria-label="Subir imagen para el blog"
+                />
+              </label>
+              <div className="form-actions">
+                <button type="submit">Enviar</button>
+                <button type="button" onClick={() => setIsBlogModalOpen(false)}>
+                  Cancelar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+      {/* Embajador Omotenashi del Mes (se mantiene igual) */}
+      <aside
+        className={`embajador-section ${isEmbajadorExpanded ? "expanded" : ""}`}
+        aria-label="Embajador Omotenashi del Mes"
+        style={{ left: `${bubblePosition.x}px`, top: `${bubblePosition.y}px` }}
+      >
+        {!isEmbajadorExpanded && (
+          <div
+            className="embajador-bubble"
+            ref={bubbleRef}
+            onMouseDown={(e) => handleMouseDown(e, "bubble")}
+            onClick={handleEmbajadorToggle}
+            data-tooltip="Conoce cómo va el Embajador del Mes (arrástrame)"
+            style={{ left: 0, top: 0 }}
+          >
+            <span role="img" aria-label="Trofeo">
+              🏆
+            </span>
+          </div>
+        )}
+        {isEmbajadorExpanded && (
+          <div
+            className="embajador-content glassmorphic"
+            ref={expandedRef}
+            onMouseDown={(e) => handleMouseDown(e, "expanded")}
+          >
+            <button
+              className="close-button"
+              onClick={handleEmbajadorToggle}
+              aria-label="Cerrar Embajador del Mes"
+            >
+              ✕
+            </button>
+            <h2>Embajador Omotenashi del Mes</h2>
+            <p>Conteo final: 31 de Mayo</p>
+            <div className="race-track">
+              {racePositions.map((contender, index) => (
+                <div key={index} className="race-lane">
+                  <img
+                    src={contender.profilePic}
+                    alt={contender.user}
+                    className="race-car"
+                    style={{ bottom: `${contender.position}%` }}
+                  />
+                  <span>
+                    {contender.user} ({contender.sakuras} 🌸)
+                  </span>
+                  {index === 0 && (
+                    <p className="ambassador-title">
+                      Embajador Omotenashi del Mes
+                    </p>
+                  )}
+                </div>
+              ))}
+              <div className="finish-line"></div>
+            </div>
+          </div>
+        )}
+      </aside>
+    </div>
+  );
+};
+
+export default BlogExperiencias;

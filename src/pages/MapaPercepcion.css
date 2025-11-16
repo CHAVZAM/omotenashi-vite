@@ -1,0 +1,199 @@
+/*
+ * Archivo: MapaPercepcion.css
+ * Descripción: Estilos para el componente de visualización del mapa de percepción.
+ */
+
+/* --- Variables CSS para un mantenimiento más sencillo --- */
+:root {
+  --color-brand-primary: #2ca9bc;
+  --color-brand-hover: #2390a3;
+  --color-score-superior: #2ca9bc;
+  --color-score-bueno: #F4C430;
+  --color-score-deficiente: #FF9800;
+  --color-score-critico: #F44336;
+  --color-background: #f5f5f5;
+  --color-text-dark: #555;
+  --color-text-light: white;
+  --color-title: #ff4444; /* Un rojo distintivo */
+  --color-border-light: rgba(255, 255, 255, 0.15);
+  --glassmorphic-background: rgba(255, 255, 255, 0.25);
+  --glassmorphic-blur: 12px;
+  --box-shadow-light: 0 4px 12px rgba(0, 0, 0, 0.1);
+  --box-shadow-heavy: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.mapa-container {
+  font-family: 'Noto Sans JP', sans-serif;
+  color: var(--color-text-dark);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--color-background);
+  position: relative;
+  min-height: 100vh; /* ✅ garantiza vista completa y scroll natural */
+  overflow: visible; /* ✅ evita recortes en mapas grandes o tooltips */
+  box-sizing: border-box; /* ✅ asegura que el padding no sume extra */
+}
+
+.mapa-title {
+  color: var(--color-title);
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.reload-button {
+  background-color: var(--color-brand-primary);
+  color: var(--color-text-light);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.reload-button:hover {
+  background-color: var(--color-brand-hover);
+}
+
+.reload-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* --- Clases para los estilos glassmorphic compartidos --- */
+.glassmorphic-tooltip,
+.glassmorphic-card {
+  background: var(--glassmorphic-background);
+  backdrop-filter: blur(var(--glassmorphic-blur));
+  -webkit-backdrop-filter: blur(var(--glassmorphic-blur));
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  box-shadow: var(--box-shadow-light);
+  color: var(--color-text-dark);
+}
+
+.glassmorphic-tooltip {
+  padding: 1rem !important;
+  font-size: 14px !important;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra más ligera para el tooltip */
+}
+
+.leyenda {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  gap: 1rem;
+  width: 100%;
+  max-width: 800px;
+  align-items: center;
+}
+
+.leyenda-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: var(--color-text-dark);
+}
+
+.color-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.gradient-bar {
+  width: 100%;
+  max-width: 800px;
+  height: 20px;
+  background: linear-gradient(to right, 
+    var(--color-score-critico), 
+    var(--color-score-deficiente), 
+    var(--color-score-bueno), 
+    var(--color-score-superior)
+  );
+  border-radius: 10px;
+  margin-top: 1rem;
+  position: relative;
+}
+
+.gradient-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #777;
+  width: 100%;
+  max-width: 800px;
+  margin-top: 0.3rem;
+}
+
+.country-card {
+  position: relative;
+  margin: 1.5rem auto 0;
+  max-width: 350px;
+  width: 90%;
+  padding: 1.5rem;
+  box-shadow: var(--box-shadow-heavy);
+  color: #222;
+  font-weight: 400;
+  animation: fadeInUp 0.4s ease-out;
+  z-index: 10;
+}
+
+.country-card h2 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.4rem;
+  color: var(--color-brand-primary);
+}
+
+.country-card p {
+  margin: 0.2rem 0;
+  font-size: 0.95rem;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .mapa-container {
+    padding: 1rem;
+  }
+
+  .country-card {
+    position: static;
+    margin-top: 1rem;
+  }
+
+  .leyenda,
+  .gradient-labels {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .gradient-bar {
+    height: 16px;
+  }
+
+  .reload-button {
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.8rem;
+  }
+}

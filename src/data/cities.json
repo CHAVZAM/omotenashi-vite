@@ -1,0 +1,28 @@
+{
+  "Colombia": [
+    "Bogot\u00e1",
+    "Medell\u00edn",
+    "Cali",
+    "Barranquilla"
+  ],
+  "Mexico": [
+    "Ciudad de M\u00e9xico",
+    "Guadalajara",
+    "Monterrey"
+  ],
+  "Spain": [
+    "Madrid",
+    "Barcelona",
+    "Valencia"
+  ],
+  "Argentina": [
+    "Buenos Aires",
+    "C\u00f3rdoba",
+    "Rosario"
+  ],
+  "United States": [
+    "New York",
+    "Los Angeles",
+    "Chicago"
+  ]
+}

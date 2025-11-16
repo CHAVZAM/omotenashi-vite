@@ -1,0 +1,21 @@
+.progreso-general {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+.progreso-general__barra {
+  width: 100%;
+  height: 20px;
+  background: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progreso-general__barra--completado {
+  height: 100%;
+  background: #9b2d30;
+  transition: width 0.3s ease;
+}

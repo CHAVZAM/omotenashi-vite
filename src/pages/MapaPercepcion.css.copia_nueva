@@ -1,0 +1,152 @@
+/* MapaPercepcion.css actualizado */
+
+.mapa-container {
+  font-family: 'Noto Sans JP', sans-serif;
+  color: #555;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f5f5f5;
+  position: relative;
+}
+
+.mapa-title {
+  color: #ff4444;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.reload-button {
+  background-color: #2ca9bc;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-bottom: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.reload-button:hover {
+  background-color: #2390a3;
+}
+
+.glassmorphic-tooltip {
+  background: rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 10px !important;
+  padding: 1rem !important;
+  color: #555 !important;
+  font-size: 14px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.leyenda {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  gap: 1rem;
+  width: 100%;
+  max-width: 800px;
+  align-items: center;
+}
+
+.leyenda-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.color-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.gradient-bar {
+  width: 100%;
+  max-width: 800px;
+  height: 20px;
+  background: linear-gradient(to right, #F44336, #FF9800, #F4C430, #2ca9bc);
+  border-radius: 10px;
+  margin-top: 1rem;
+  position: relative;
+}
+
+.gradient-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #777;
+  width: 100%;
+  max-width: 800px;
+  margin-top: 0.3rem;
+}
+
+.country-card {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  max-width: 280px;
+  color: #333;
+  animation: fadeInUp 0.4s ease-out;
+  z-index: 10;
+}
+
+.country-card h2 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.4rem;
+  color: #2ca9bc;
+}
+
+.country-card p {
+  margin: 0.2rem 0;
+  font-size: 0.95rem;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .mapa-container {
+    padding: 1rem;
+  }
+
+  .country-card {
+    position: static;
+    margin-top: 1rem;
+  }
+
+  .leyenda, .gradient-labels {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .gradient-bar {
+    height: 16px;
+  }
+}

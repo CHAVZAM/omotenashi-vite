@@ -1,0 +1,837 @@
+.blog-experiencias-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  width: 95%;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  position: relative;
+  font-family: "Noto Sans JP", sans-serif;
+  color: #555;
+}
+
+.main-title {
+  font-size: 2.5rem;
+  color: #ff4444;
+  text-align: center;
+  text-shadow: 0 0 8px rgba(255, 68, 68, 0.3);
+}
+
+.welcome-subtitle {
+  font-size: 1.1rem;
+  color: #9b9a9a;
+  text-align: center;
+  max-width: 800px;
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.section-title {
+  font-size: 2rem;
+  color: #ff4444;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: 600;
+  text-shadow: 0 0 8px rgba(255, 68, 68, 0.3);
+}
+
+.blog-posts,
+.faq-section,
+.historias_inspiran-section,
+.necesitas_omotenashi-section {
+  width: 100%;
+}
+
+.post-card,
+.experience-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  margin-bottom: 2rem;
+  animation: fadeIn 0.8s ease;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: transform 0.3s ease;
+  cursor: pointer; /* Agregado para que las tarjetas de experiencia sean cliqueables */
+}
+
+.post-content {
+  color: #555;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.post-card:hover,
+.experience-card:hover,
+.postulate-card:hover {
+  /* Añadido .postulate-card:hover */
+  transform: scale(1.02);
+}
+
+/* Contenedor de la imagen del post/experiencia (se mantiene) */
+.post-image-wrapper,
+.experience-image-wrapper {
+  width: 100%;
+  max-width: 180px;
+  height: 180px;
+  overflow: hidden;
+  border-radius: 10px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.post-image,
+.experience-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.post-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.comments-section {
+  margin-top: 1rem;
+}
+
+.comment {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 0.5rem;
+  border-bottom: 1px solid #9b9a9a;
+}
+
+.comment-content {
+  flex: 1;
+}
+
+.reply {
+  margin-left: 2rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border-left: 2px solid #ff4444;
+}
+
+.nested-reply {
+  margin-left: 4rem;
+  border-left: 2px solid #ff6666;
+}
+
+.comment-pic {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.comment strong,
+.comment p {
+  color: #555;
+}
+
+.comment-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.reply-button {
+  padding: 0.3rem;
+  background-color: #ff4444;
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, transform 0.2s ease,
+    box-shadow 0.3s ease;
+}
+
+.reply-button:hover {
+  background-color: #d32f2f;
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+}
+
+.reply-input {
+  margin-top: 0.5rem;
+  margin-left: 2rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.reply-input input {
+  padding: 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  border-radius: 10px;
+  flex-grow: 1;
+  font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
+  color: #555;
+}
+
+.reply-input button {
+  padding: 0.6rem 1rem;
+  background-color: #ff4444;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.reply-input button:hover {
+  background-color: #d32f2f;
+  transform: scale(1.05);
+}
+
+.comment-input-container {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  animation: fadeIn 0.8s ease;
+}
+
+.comment-input-container input {
+  padding: 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  border-radius: 10px;
+  flex-grow: 1;
+  font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
+  color: #555;
+}
+
+.comment-input-container input:focus {
+  border-color: #ff4444;
+  outline: none;
+  box-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
+}
+
+.comment-input-container button {
+  padding: 0.6rem 1rem;
+  background-color: #ff4444;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.comment-input-container button:hover {
+  background-color: #d32f2f;
+  transform: scale(1.05);
+}
+
+.like-button,
+.sakura-button,
+.report-button,
+.submit-button {
+  padding: 0.5rem 1rem;
+  background-color: #ff4444;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 15px rgba(255, 68, 68, 0.5), 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.like-button:hover,
+.sakura-button:hover,
+.submit-button:hover {
+  background-color: #d32f2f;
+  transform: translateY(-3px);
+  box-shadow: 0 0 25px rgba(255, 68, 68, 0.7), 0 6px 18px rgba(0, 0, 0, 0.3);
+}
+
+.sakura-button.remove {
+  background-color: #9b9a9a;
+  margin-left: 0.5rem;
+}
+
+.sakura-button.remove:hover {
+  background-color: #777;
+}
+
+.report-button {
+  background-color: #9b9a9a;
+}
+
+.report-button:hover {
+  background-color: #777;
+}
+
+.experience-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.pagination {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.pagination button {
+  padding: 0.5rem 1rem;
+  background-color: #ff4444;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.pagination button:hover {
+  background-color: #d32f2f;
+  transform: scale(1.05);
+}
+
+.pagination button.active {
+  background-color: #d32f2f;
+  font-weight: bold;
+}
+
+.pagination-arrow {
+  padding: 0.5rem 1rem;
+  background-color: #9b9a9a;
+}
+
+.pagination-arrow:hover {
+  background-color: #777;
+  transform: scale(1.05);
+}
+
+.pagination-arrow:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.pagination span {
+  padding: 0.5rem;
+  color: #555;
+}
+
+.faq-section {
+  margin-top: 2rem;
+}
+
+.faq-item {
+  margin-bottom: 1rem;
+}
+
+.faq-question {
+  width: 100%;
+  padding: 1rem;
+  background-color: #ff4444;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  outline: none;
+}
+
+.faq-question:hover {
+  background-color: #d32f2f;
+}
+
+.faq-question.active {
+  background-color: #d32f2f;
+}
+
+.faq-answer {
+  display: none;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  margin-top: 0.5rem;
+  color: #555;
+}
+
+.faq-question.active + .faq-answer {
+  display: block;
+}
+
+/* Nuevo estilo para las tarjetas de postulación */
+.postulate-card {
+  display: flex;
+  flex-direction: column; /* Coloca la imagen arriba y el texto abajo */
+  align-items: center; /* Centra la imagen y el texto horizontalmente */
+  justify-content: center; /* Centra verticalmente si hay espacio */
+  gap: 0.5rem; /* Espacio entre imagen y texto */
+  padding: 1rem;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  cursor: pointer; /* Indicar que es cliqueable */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición para el hover */
+  width: fit-content; /* Se ajusta al contenido */
+  min-width: 180px; /* Ancho mínimo para que no se vea muy pequeño */
+  max-width: 250px; /* Ancho máximo para la tarjeta */
+  margin: 1.5rem auto; /* Centra la tarjeta y da un margen */
+  text-align: center; /* Centra el texto */
+}
+
+.postulate-card-image {
+  height: 110px;
+  object-fit: contain; /* Asegura que la imagen completa del onigiri sea visible */
+  margin-bottom: 0.5rem; /* Espacio entre la imagen y el texto */
+  width: auto;
+  display: block;
+  background: transparent; /* Asegura que no haya fondo aplicado por CSS */
+}
+
+.postulate-card-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #ff4444; /* Color del texto del botón */
+  text-shadow: 0 0 5px rgba(255, 68, 68, 0.3);
+}
+
+.postulate-card:hover {
+  transform: translateY(
+    -5px
+  ); /* Pequeño efecto de elevación al pasar el ratón */
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+}
+
+.necesitas_omotenashi-warning {
+  color: #9b9a9a;
+  font-style: italic;
+  margin-bottom: 1rem;
+  text-align: center; /* Centrar el aviso */
+}
+
+.form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.form-container {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 2rem;
+  border-radius: 20px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.form-container label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: #9b9a9a;
+}
+
+.form-container input,
+.form-container textarea {
+  padding: 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
+  color: #555;
+  font-size: 1rem;
+}
+
+.form-container textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.form-container input:focus,
+.form-container textarea:focus {
+  border-color: #ff4444;
+  outline: none;
+  box-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.form-actions button {
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+}
+
+.form-actions button[type="button"] {
+  background-color: #9b9a9a;
+}
+
+.form-actions button[type="button"]:hover {
+  background-color: #777;
+}
+
+[data-tooltip] {
+  position: relative;
+  pointer-events: auto;
+}
+
+[data-tooltip]:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0.5rem 1rem;
+  background-color: #555;
+  color: #ffffff;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  z-index: 1500;
+  margin-bottom: 0.5rem;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+.ambassador-title {
+  font-size: 0.9rem;
+  color: #ff4444;
+  margin-top: 0.5rem;
+}
+
+.embajador-section {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  z-index: 1200;
+  transition: all 0.3s ease;
+}
+
+.embajador-section.expanded {
+  width: 300px;
+  height: auto;
+  border-radius: 20px;
+  padding: 1.5rem;
+}
+
+.embajador-content {
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 1.5rem;
+}
+
+.embajador-bubble {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(255, 68, 68, 1);
+  color: #ffffff;
+  font-size: 1.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: move;
+  z-index: 1200;
+  pointer-events: auto;
+  opacity: 1;
+}
+
+.embajador-bubble span {
+  font-size: 1.5rem;
+  line-height: 1;
+  color: #ffffff;
+  text-align: center;
+}
+
+.embajador-bubble.dragging {
+  opacity: 0.7;
+}
+
+.embajador-bubble:hover {
+  transform: scale(1.1);
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 68, 68, 0.8);
+  color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  font-family: "Noto Sans JP", sans-serif;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+.close-button:hover {
+  background: #d32f2f;
+  transform: scale(1.1);
+}
+
+.podcast-note {
+  color: #ff6666;
+  font-size: 1rem;
+  font-style: italic;
+  margin-top: 0.5rem;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.race-track {
+  position: relative;
+  height: 200px;
+  margin-top: 1rem;
+}
+
+.race-lane {
+  position: absolute;
+  bottom: 0;
+  width: 80px;
+  text-align: center;
+}
+
+.race-lane:nth-child(1) {
+  left: 0;
+}
+.race-lane:nth-child(2) {
+  left: 100px;
+}
+.race-lane:nth-child(3) {
+  left: 200px;
+}
+
+.race-car {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: absolute;
+  transition: bottom 1s ease-in-out;
+}
+
+.race-lane span {
+  display: block;
+  margin-top: 60px;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.finish-line {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(to right, transparent, #ff4444, transparent);
+}
+
+.fade-in {
+  animation: fadeIn 0.8s ease-in-out forwards;
+}
+
+.bounce {
+  animation: bounce 0.3s ease;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Media Queries - Ajuste de responsividad (se mantienen las adiciones de la vez pasada) */
+@media (max-width: 768px) {
+  .blog-experiencias-container {
+    padding: 1rem;
+  }
+
+  .post-card,
+  .experience-card {
+    padding: 1rem;
+  }
+
+  /* Ajuste de las imágenes (Onigiris) */
+  .post-image-wrapper,
+  .experience-image-wrapper {
+    max-width: 150px;
+    height: 150px;
+  }
+
+  .pagination button {
+    padding: 0.3rem 0.8rem;
+  }
+
+  .comment-input-container {
+    padding: 0.3rem;
+  }
+
+  .comment-input-container input {
+    font-size: 0.9rem;
+  }
+
+  .comment-input-container button {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .embajador-section {
+    width: 60px;
+    height: 60px;
+    z-index: 1200;
+  }
+
+  .embajador-section.expanded {
+    width: 250px;
+    height: auto;
+    padding: 1rem;
+  }
+
+  .embajador-bubble {
+    width: 60px;
+    height: 60px;
+    z-index: 1200;
+  }
+
+  /* Ajuste de las imágenes (Onigiris) */
+  .post-image-wrapper,
+  .experience-image-wrapper {
+    max-width: 120px;
+    height: 120px;
+  }
+
+  .race-track {
+    height: 150px;
+  }
+
+  .race-lane:nth-child(1) {
+    left: 0;
+  }
+  .race-lane:nth-child(2) {
+    left: 80px;
+  }
+  .race-lane:nth-child(3) {
+    left: 160px;
+  }
+
+  .race-car {
+    width: 40px;
+    height: 40px;
+  }
+
+  .race-lane span {
+    font-size: 0.8rem;
+    margin-top: 50px;
+  }
+
+  .comment-input-container {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .comment-input-container input {
+    width: 100%;
+  }
+
+  .comment-input-container button {
+    width: 100%;
+    padding: 0.5rem;
+  }
+
+  .close-button {
+    width: 25px;
+    height: 25px;
+    font-size: 0.9rem;
+  }
+
+  /* Responsividad para las nuevas tarjetas de postulación */
+  .postulate-card {
+    min-width: unset; /* Quita el mínimo ancho fijo en móviles */
+    width: 90%; /* Ocupa más ancho en móviles */
+    max-width: 200px; /* Limita el ancho máximo en móviles */
+  }
+
+  .postulate-card-image {
+    width: 60px; /* Reduce el tamaño del onigiri en móviles */
+    height: 60px;
+  }
+
+  .postulate-card-text {
+    font-size: 1rem; /* Reduce el tamaño del texto en móviles */
+  }
+}

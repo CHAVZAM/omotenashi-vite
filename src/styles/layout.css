@@ -1,0 +1,27 @@
+/* Alturas del header (ajusta si tu navbar es más alto o bajo) */
+:root {
+  --app-header-h-desktop: 92px;
+  --app-header-h-mobile: 68px;
+}
+
+/* Variable activa según tamaño */
+@media (min-width: 769px) {
+  :root {
+    --app-header-h: var(--app-header-h-desktop);
+  }
+}
+@media (max-width: 768px) {
+  :root {
+    --app-header-h: var(--app-header-h-mobile);
+  }
+}
+
+/* Aplica padding-top para que el contenido no quede oculto bajo el header fijo */
+.main-under-header {
+  padding-top: calc(var(--app-header-h) + env(safe-area-inset-top, 0px));
+}
+
+/* Corrige scroll a anclas o secciones con ID */
+*[id] {
+  scroll-margin-top: calc(var(--app-header-h) + 12px);
+}

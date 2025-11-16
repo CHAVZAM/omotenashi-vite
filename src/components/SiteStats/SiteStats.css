@@ -1,0 +1,170 @@
+/* Contenedor principal para las estadísticas compactas */
+.site-stats-container {
+  width: fit-content; /* Se ajusta al contenido */
+  margin: 1.5rem auto 0.5rem auto; /* Espacio superior, centrado, menos espacio abajo */
+  padding: 0.5rem 1.5rem; /* Relleno reducido */
+  background: rgba(255, 255, 255, 0.05); /* Fondo muy sutil */
+  backdrop-filter: blur(5px); /* Menos desenfoque */
+  -webkit-backdrop-filter: blur(5px);
+  border-radius: 10px; /* Bordes ligeramente redondeados */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra más suave */
+  border: 1px solid rgba(255, 255, 255, 0.08); /* Borde más sutil */
+  text-align: center;
+  font-family: "Noto Sans JP", sans-serif;
+  display: flex; /* Para alinear horizontalmente */
+  flex-direction: column; /* Para que el título y la cuadrícula estén en columna */
+  align-items: center; /* Centrar elementos internos */
+}
+
+.stats-title {
+  font-size: 1.3rem; /* Título más pequeño */
+  color: #ff4444;
+  margin-bottom: 0.8rem; /* Menos espacio abajo */
+  font-weight: 600; /* Menos negrita */
+  text-shadow: none; /* Sin sombra de texto */
+  white-space: nowrap; /* Evita que se rompa el texto en varias líneas */
+}
+
+.stats-grid {
+  display: flex; /* Alineación horizontal de las tarjetas */
+  gap: 1rem; /* Espacio entre las tarjetas */
+  margin-bottom: 0; /* No se necesita margen aquí */
+  flex-wrap: wrap; /* Permite que las tarjetas se envuelvan en pantallas pequeñas */
+  justify-content: center; /* Centra las tarjetas si se envuelven */
+}
+
+.stat-card {
+  background: none; /* Sin fondo en las tarjetas individuales */
+  padding: 0.3rem 0.8rem; /* Relleno muy reducido */
+  border-radius: 8px;
+  border: none; /* Sin borde */
+  box-shadow: none; /* Sin sombra */
+  display: flex;
+  flex-direction: row; /* Contenido de la tarjeta en línea */
+  align-items: center; /* Centrar verticalmente */
+  justify-content: center;
+  transition: none; /* Sin transiciones para un aspecto más estático */
+  /* Propiedades para simular tamaño de lápiz y borrador */
+  height: 25px; /* Altura máxima de un borrador de goma */
+  min-width: 100px; /* Ancho mínimo para un lápiz (el contenido lo expandirá) */
+}
+
+.stat-card:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.stat-value {
+  font-size: 1rem; /* Valor más pequeño */
+  font-weight: bold;
+  color: #ff6666;
+  margin-right: 0.4rem; /* Espacio entre el valor y la etiqueta */
+  margin-bottom: 0; /* Sin margen inferior */
+  text-shadow: none; /* Sin sombra de texto */
+  white-space: nowrap; /* Evita que el número se rompa */
+}
+
+.stat-label {
+  font-size: 0.8rem; /* Etiqueta más pequeña */
+  color: #9b9a9a;
+  margin-bottom: 0; /* Sin margen inferior */
+  font-weight: 400; /* Fuente más ligera */
+  white-space: nowrap; /* Evita que la etiqueta se rompa */
+}
+
+/* Ocultar los grupos de input manual por defecto en producción */
+/* En desarrollo, la condición JS los mostrará, y estos estilos se aplicarán */
+.manual-input-group {
+  display: flex; /* Asegura que estén en línea */
+  gap: 0.3rem; /* Espacio mínimo */
+  margin-top: 0.5rem; /* Pequeño margen superior */
+  width: auto; /* Ancho automático */
+  justify-content: center;
+  align-items: center;
+  font-size: 0.7rem; /* Texto más pequeño para los controles */
+}
+
+.manual-input-group input {
+  width: 50px; /* Ancho muy pequeño para el input */
+  padding: 0.2rem 0.4rem; /* Relleno muy pequeño */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Borde muy sutil */
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #eee; /* Color de texto claro para el input */
+  font-size: 0.7rem;
+  text-align: center;
+}
+
+.manual-input-group input:focus {
+  border-color: #ff4444;
+  outline: none;
+  box-shadow: 0 0 5px rgba(255, 68, 68, 0.2);
+}
+
+.manual-input-group button {
+  padding: 0.2rem 0.6rem; /* Relleno muy pequeño */
+  background-color: #ff4444;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.7rem;
+  transition: background-color 0.2s ease;
+}
+
+.manual-input-group button:hover {
+  background-color: #d32f2f;
+  transform: none; /* Sin transformación al pasar el ratón */
+}
+
+.stats-note {
+  font-size: 0.8rem; /* Texto de nota más pequeño */
+  color: #777;
+  font-style: italic;
+  margin-top: 0.8rem; /* Margen superior reducido */
+}
+
+/* Media Queries para responsividad - Ajustar para pantallas pequeñas */
+@media (max-width: 768px) {
+  .site-stats-container {
+    padding: 0.4rem 1rem;
+    margin: 1rem auto 0.5rem auto;
+  }
+  .stats-title {
+    font-size: 1.1rem;
+  }
+  .stats-grid {
+    flex-direction: column; /* Apilar en pantallas pequeñas */
+    gap: 0.5rem; /* Menos espacio entre elementos apilados */
+  }
+  .stat-card {
+    height: auto; /* Altura automática al apilar */
+    min-width: unset; /* Sin ancho mínimo al apilar */
+    flex-direction: row; /* Mantiene valor y etiqueta en línea */
+  }
+  .stat-value {
+    font-size: 0.9rem;
+  }
+  .stat-label {
+    font-size: 0.75rem;
+  }
+  .manual-input-group input {
+    width: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .site-stats-container {
+    padding: 0.3rem 0.8rem;
+    margin: 0.8rem auto 0.4rem auto;
+  }
+  .stats-title {
+    font-size: 1rem;
+  }
+  .stat-value {
+    font-size: 0.85rem;
+  }
+  .stat-label {
+    font-size: 0.7rem;
+  }
+}

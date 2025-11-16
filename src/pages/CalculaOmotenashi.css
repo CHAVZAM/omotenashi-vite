@@ -1,0 +1,333 @@
+/* CalculaOmotenashi.css - Archivo COMPLETO Y UNIFICADO */
+
+/* Estilos Generales del Contenedor Principal */
+.calcula-omotenashi-container {
+  padding: 3rem 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+  font-family: "Noto Sans JP", sans-serif;
+  background: transparent; /* Fondo transparente para integrarse con el body */
+  min-height: 100vh;
+  color: #555; /* Texto más brillante para mejor contraste */
+}
+
+/* Estilos de las "pantallas" o pasos del cuestionario (Glasomorfismo) */
+.intro-screen,
+.type-selection-screen,
+.user-data-form,
+.evaluation-screen,
+.results-screen {
+  background: rgba(255, 255, 255, 0.1); /* Transparencia para glasomorfismo */
+  backdrop-filter: blur(12px); /* Efecto de desenfoque */
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Sombra suave */
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+  /* Animación de entrada general para las pantallas (manteniendo tu fadeIn original) */
+  animation: fadeIn 0.8s ease;
+  border: 1px solid rgba(255, 255, 255, 0.15); /* Borde sutil para glasomorfismo */
+}
+
+/* Títulos Principales de las Secciones */
+.intro-screen h2,
+.evaluation-screen h3,
+.results-screen h3,
+.type-selection-screen h3,
+.user-data-form h3 {
+  color: #ff4444; /* Rojo vibrante */
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  text-align: center;
+  font-weight: 600;
+  text-shadow: 0 0 8px rgba(255, 68, 68, 0.3); /* Glow sutil en títulos */
+}
+
+.intro-subtitle {
+  color: #ff6666; /* Rojo más claro */
+  font-size: 1.1rem;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.consent-warning {
+  color: #9b9a9a; /* Gris más claro para mejor visibilidad */
+  font-size: 0.95rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+}
+
+/* Texto de la Pregunta del Cuestionario */
+.question-text {
+  color: #555555; /* Texto oscuro para el cuestionario */
+  font-size: 1.2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Sombra sutil para mejorar legibilidad */
+}
+
+/* Contenedor Específico para las Preguntas Individuales (para la animación de fade) */
+.question-content {
+  /* Establece la base para la transición de las preguntas individuales */
+  transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out; /* Ajustado a 0.8s */
+  position: relative; /* Esencial para que las animaciones de movimiento funcionen correctamente */
+  min-height: 200px; /* Asegura un espacio mínimo para la pregunta y evita saltos de contenido */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* Asegura que ocupe todo el ancho disponible */
+}
+
+/* Botones con Animación General (Comenzar, Continuar) */
+.animated-button {
+  background-color: #ff4444; /* Rojo vibrante */
+  color: #ffffff;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1.5rem;
+  box-shadow: 0 0 15px rgba(255, 68, 68, 0.5), 0 4px 12px rgba(0, 0, 0, 0.2); /* Glow rojo */
+}
+
+.animated-button:hover {
+  background-color: #d32f2f; /* Rojo más oscuro */
+  transform: translateY(-3px);
+  box-shadow: 0 0 25px rgba(255, 68, 68, 0.7), 0 6px 18px rgba(0, 0, 0, 0.3); /* Glow más intenso */
+}
+
+.button-group {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+/* Botones de "Volver" */
+.back-button {
+  background-color: rgba(61, 60, 60, 0.058); /* Fondo glasomórfico */
+  color: #ffffff; /* Texto más claro */
+  border: 1px solid rgba(255, 255, 255, 0); /* Borde más visible */
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.back-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #ff4444;
+  transform: translateY(-3px);
+  box-shadow: 0 0 15px rgba(255, 68, 68, 0.3), 0 6px 18px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos de Etiquetas y Campos de Formulario */
+label {
+  display: block;
+  margin-bottom: 1.5rem;
+  font-weight: 500;
+  color: #9b9a9a; /* Texto blanco para etiquetas de formularios */
+}
+
+input,
+select {
+  width: 100%;
+  padding: 0.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.92); /* Borde más visible */
+  border-radius: 10px;
+  margin-top: 0.4rem;
+  font-size: 1rem;
+  background-color: rgba(255, 255, 255, 0.05); /* Fondo glasomórfico */
+  backdrop-filter: blur(5px);
+  color: #555; /* Texto dentro de inputs */
+  transition: border-color 0.3s ease;
+}
+
+input:focus,
+select:focus {
+  border-color: #ff4444;
+  outline: none;
+  box-shadow: 0 0 10px rgba(255, 68, 68, 0.3);
+}
+
+.error-message {
+  color: #ff6666; /* Rojo claro para errores */
+  font-size: 0.9rem;
+  margin-top: 0.3rem;
+  display: block;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Sombra para legibilidad */
+}
+
+/* Grupo de Botones de Opción (Personal/Empresarial y 1-7) */
+.options-group {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.option-button {
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 2px solid #ff4444;
+  color: #ff4444;
+  padding: 0.9rem 1.8rem;
+  font-size: 1.1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 70px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 10px rgba(255, 68, 68, 0.2), 0 5px 12px rgba(0, 0, 0, 0.1);
+}
+
+.option-button:hover {
+  background-color: #ff4444;
+  color: #ffffff;
+  transform: scale(1.1);
+  box-shadow: 0 0 20px rgba(255, 68, 68, 0.5), 0 7px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilos de la Barra de Progreso */
+progress {
+  width: 100%;
+  height: 12px;
+  appearance: none;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.1); /* Fondo claro de la barra */
+}
+
+progress::-webkit-progress-bar {
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.1
+  ); /* Fondo de la parte no completada */
+  border-radius: 10px;
+  backdrop-filter: blur(12px); /* Transparencia glasomórfica */
+}
+
+progress::-webkit-progress-value {
+  background: linear-gradient(
+    90deg,
+    #ff4444,
+    #ff6666
+  ); /* ¡Tu Gradiente Rojo Original! */
+  border-radius: 10px;
+  transition: width 0.5s ease; /* Transición para el llenado de la barra */
+  box-shadow: 0 0 10px rgba(255, 68, 68, 0.5); /* Sombra para el glow rojo */
+  opacity: 0.8; /* Transparencia glasomórfica */
+}
+
+.legend-note {
+  font-size: 1rem;
+  text-align: center;
+  color: #9b9a9a; /* Gris más claro para mejor visibilidad */
+  margin-top: 1.5rem;
+  font-style: italic;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.3); /* Sombra para legibilidad */
+}
+
+/* Estilos para la Pantalla de Resultados */
+.results-screen .chart-container {
+  background: rgba(255, 255, 255, 0.1); /* Transparencia glasomórfica */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 15px;
+  padding: 1rem;
+  margin: 1rem 0;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.results-screen canvas,
+.results-screen svg {
+  filter: opacity(0.8); /* Transparencia glasomórfica para el gráfico */
+}
+
+.result-actions {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+/* Estilos de Borde de Resultados según el CSO (originales con tus colores) */
+.result-rojo {
+  border: 3px solid #ff4444;
+  box-shadow: 0 0 15px #ff44444d;
+}
+
+.result-amarillo {
+  border: 3px solid #ffca28;
+  box-shadow: 0 0 15px rgba(255, 202, 40, 0.5);
+}
+
+.result-verde {
+  border: 3px solid #2ca9bc;
+  box-shadow: 0 0 15px rgba(44, 169, 188, 0.3);
+}
+
+/* Animaciones (Definiciones de Keyframes) */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+}
+
+/* Clase para aplicar la animación de "fade-in-out" a elementos (como las preguntas) */
+.fade-in-out {
+  animation: fadeIn 0.8s ease-in-out forwards; /* Usa la animación de entrada, ajustado a 0.8s */
+}
+
+/* Media Queries para Responsividad Móvil */
+@media (max-width: 768px) {
+  .options-group {
+    flex-direction: column;
+    align-items: center;
+  }
+  .option-button {
+    width: 100%;
+    max-width: 300px;
+    margin-bottom: 1rem;
+  }
+  .intro-screen,
+  .user-data-form,
+  .evaluation-screen {
+    padding: 1.5rem;
+  }
+  .animated-button,
+  .back-button {
+    width: 100%;
+  }
+
+  /* Ajuste CRÍTICO para la pantalla de evaluación en móvil */
+  .evaluation-screen {
+    position: relative; /* Asegura que los elementos hijos con position: absolute se posicionen correctamente */
+    overflow: hidden; /* MUY IMPORTANTE: Evita barras de desplazamiento al animar elementos fuera de la vista */
+    padding: 1.5rem; /* Asegura un buen padding en móvil */
+  }
+}

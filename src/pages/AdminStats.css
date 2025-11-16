@@ -1,0 +1,73 @@
+.admin-stats-container {
+  position: relative;              /* CLAVE para anclar el sello */
+  max-width: 1000px;
+  margin: 100px auto 2rem;         /* deja espacio bajo el header */
+  padding: 2rem;
+  text-align: center;
+  font-family: "Noto Sans JP", sans-serif;
+  color: #333;
+}
+
+.admin-brand-badge {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  z-index: 3000;                      /* por encima del fondo de la página */
+}
+
+.admin-brand-badge img {
+  height: 24px;
+  width: auto;
+  display: block;
+}
+
+.admin-brand-badge span {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #9b2d30;
+}
+
+.admin-title {
+  font-size: 1.8rem;
+  margin-bottom: 1.25rem;
+  color: #9b2d30;
+}
+
+.admin-cards {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.admin-card {
+  padding: 1.25rem;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+  backdrop-filter: blur(10px);
+  text-align: center;
+}
+
+.admin-card h3 {
+  margin: 0 0 8px;
+  color: #444;
+}
+.admin-card p {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #222;
+}/*
+@media (max-width: 768px) {
+  .admin-cards {
+    grid-template-columns: repeat(1, minmax(180px, 1fr));
+  }
+}*/

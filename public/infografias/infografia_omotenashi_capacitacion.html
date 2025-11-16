@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: La C de Capacitación en Omotenashi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f7f5;
+            color: #4a5568;
+        }
+        h1, h2, h3, h4 {
+            font-family: 'Montserrat', sans-serif;
+            color: #9b2d30;
+        }
+        .text-accent {
+            color: #2E5A88;
+        }
+        .border-accent {
+            border-color: #9b2d30;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 450px;
+            max-height: 90vh;
+        }
+        .icon {
+            display: inline-block;
+            width: 2.5em;
+            height: 2.5em;
+            stroke-width: 1.5;
+            stroke: currentColor;
+            fill: none;
+            line-height: 1;
+        }
+    </style>
+</head>
+<body class="bg-[#F5F5F5] text-[#4a5568]">
+
+    <div class="container mx-auto p-4 md:p-8 max-w-5xl">
+
+        <header class="text-center py-12">
+            <img src="public/images/omotenashilogo.png" alt="Logo Rank Omotenashi" class="mx-auto h-20 w-auto mb-6">
+            <h1 class="text-4xl md:text-6xl font-bold text-[#9b2d30]">La C de Capacitación</h1>
+            <h2 class="text-2xl md:text-3xl text-accent mt-2">Forjando Embajadores del Omotenashi</h2>
+            <div class="mt-8 max-w-3xl mx-auto bg-white rounded-lg p-6 shadow-lg border border-gray-200">
+                <p class="text-lg italic text-[#534a68]">"La capacitación en el arte de Omotenashi trasciende la mera instrucción técnica para convertirse en un proceso de transformación cultural. Se trata de inculcar una comprensión profunda de principios fundamentales como el respeto consciente, la anticipación proactiva y la atención meticulosa al detalle."</p>
+            </div>
+        </header>
+
+        <main class="grid grid-cols-1 md:grid-cols-3 gap-8 my-12">
+            
+            <div class="md:col-span-3 text-center mb-8">
+                <h3 class="text-3xl font-bold">Principios Fundamentales de la Capacitación</h3>
+                <p class="mt-2 text-accent max-w-2xl mx-auto">El objetivo no es crear autómatas que siguen un guion, sino cultivar embajadores de la marca que sientan y transmitan la filosofía del servicio desde el corazón.</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-xl p-6 text-center transform hover:scale-105 transition-transform duration-300 border-t-4 border-accent">
+                <div class="flex justify-center mb-4">
+                    <svg class="icon text-[#9b2d30]" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 018 10.5H1.5a2.25 2.25 0 000 4.5H11m2.108 0l7.892 3.892a2.25 2.25 0 002.204-2.204L22.5 6.75m-1.5 12a2.25 2.25 0 01-2.204 2.204L15 20.25m-2.108-11.5L15 11.25m8.225-7.5l-2.204-2.204A2.25 2.25 0 0020.25 2.25M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm0 0v12" />
+                    </svg>
+                </div>
+                <h4 class="text-xl font-bold text-accent">Adaptación Cultural</h4>
+                <p class="text-[#4a5568] mt-2">Flexible y respetuosa con cada mercado global, integrando la filosofía en el contexto local.</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-xl p-6 text-center transform hover:scale-105 transition-transform duration-300 border-t-4 border-accent">
+                 <div class="flex justify-center mb-4">
+                    <svg class="icon text-[#9b2d30]" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                    </svg>
+                </div>
+                <h4 class="text-xl font-bold text-accent">Enfoque Práctico</h4>
+                <p class="text-[#4a5568] mt-2">Uso de 'role-playing' para desarrollar empatía y creatividad en escenarios reales de servicio.</p>
+            </div>
+
+            <div class="bg-white rounded-lg shadow-xl p-6 text-center transform hover:scale-105 transition-transform duration-300 border-t-4 border-accent">
+                 <div class="flex justify-center mb-4">
+                    <svg class="icon text-[#9b2d30]" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.815 3 8.25c0 7.219 2.912 11.953 9 15 .968-.569 1.933-1.173 2.868-1.815l.18-.135m-9.36-7.5l.327-.327m0 0l3.227 3.227m-3.227-3.227A10.873 10.873 0 0012 15c.983 0 1.967-.054 2.943-.161l.526-.06M7.5 14.5l-1.5 1.5H5.25a2.25 2.25 0 01-2.25-2.25V6.75a2.25 2.25 0 012.25-2.25h1.5zm10.5 0h1.5a2.25 2.25 0 002.25-2.25V6.75a2.25 2.25 0 00-2.25-2.25H16.5m-3.253 1.09l3.48 3.48m0 0l-3.48 3.48m3.48-3.48L12 9.25M7.5 14.5l-1.5 1.5M12 20.25v-1.5m0-4.5v-1.5" />
+                    </svg>
+                </div>
+                <h4 class="text-xl font-bold text-accent">Conexión Emocional</h4>
+                <p class="text-[#4a5568] mt-2">Tratar a cada cliente como un invitado de honor para crear impresiones memorables.</p>
+            </div>
+
+        </main>
+
+        <section class="my-16 bg-white rounded-lg shadow-2xl p-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                <div class="text-center md:text-left">
+                    <h3 class="text-3xl font-bold">La Fórmula de la Percepción del Cliente</h3>
+                    <p class="mt-4 text-[#4a5568]">Un concepto clave en nuestra capacitación es entender cómo el cliente percibe el valor. La fórmula **RxI²** nos enseña que una **R**espuesta correcta, por sí sola, no es suficiente. El valor se multiplica exponencialmente por la **I**nformación, la **I**nteracción y la **I**nteligencia emocional con la que se entrega.</p>
+                </div>
+                <div class="flex items-center justify-center p-6 bg-gray-50 rounded-lg border-2 border-dashed border-accent">
+                     <div class="text-center">
+                        <span class="text-5xl font-bold text-accent">R</span>
+                        <span class="text-4xl font-bold text-[#4a5568] mx-2">x</span>
+                        <span class="text-5xl font-bold text-accent">I²</span>
+                        <span class="text-4xl font-bold text-[#4a5568] mx-2">=</span>
+                        <span class="block text-xl md:inline-block md:text-2xl font-bold text-[#4a5568] mt-2 md:mt-0">Percepción Excepcional</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="my-16">
+            <div class="text-center mb-8">
+                <h3 class="text-3xl font-bold">Implementación y Mejora Continua</h3>
+                 <p class="mt-2 text-accent max-w-2xl mx-auto">El final de la capacitación es solo el comienzo. Se establece un ciclo virtuoso de mejora para asegurar que los conceptos se apliquen y perfeccionen constantemente, utilizando ejemplos de éxito como guía.</p>
+            </div>
+            <div class="bg-white p-6 rounded-lg shadow-xl">
+                <div class="chart-container">
+                    <canvas id="improvementCycleChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center py-12">
+            <h3 class="text-3xl font-bold">Espacio para la Reflexión</h3>
+            <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-lg p-6 shadow-lg border border-gray-200">
+                    <p class="text-lg text-[#4a5568]">¿Qué aspecto del Omotenashi resuena más contigo y cómo podrías aplicarlo en tu próxima interacción con un cliente?</p>
+                </div>
+                <div class="bg-white rounded-lg p-6 shadow-lg border border-gray-200">
+                    <p class="text-lg text-[#4a5568]">Describe un escenario real donde podrías haber aplicado la fórmula RxI² para transformar una buena experiencia en una excepcional.</p>
+                </div>
+            </div>
+            <p class="text-sm text-[#534a68] mt-12">© Rank Omotenashi - Excelencia en Servicio & Coaching CX</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const ctx = document.getElementById('improvementCycleChart').getContext('2d');
+        const improvementCycleChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Plan de Acción Post-Capacitación', 'Evaluación y Retroalimentación', 'Análisis de Casos de Éxito'],
+                datasets: [{
+                    label: 'Ciclo de Mejora',
+                    data: [33.3, 33.3, 33.3],
+                    backgroundColor: [
+                        '#9b2d30', 
+                        '#2E5A88', 
+                        '#534a68'
+                    ],
+                    borderColor: [
+                        '#FFFFFF'
+                    ],
+                    borderWidth: 4,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '60%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#4a5568',
+                            font: {
+                                size: 14,
+                                family: "'Roboto', sans-serif"
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: function(tooltipItems) {
+                                const item = tooltipItems[0];
+                                let label = item.chart.data.labels[item.dataIndex];
+                                if (Array.isArray(label)) {
+                                  return label.join(' ');
+                                } else {
+                                  return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

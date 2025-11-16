@@ -1,0 +1,332 @@
+/* ===== CharlasOmotenashi.css ===== */
+
+/* CONTENEDOR PRINCIPAL */
+.charlas-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 5rem 2rem 3rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: "Noto Sans JP", sans-serif;
+  color: #555;
+  background: linear-gradient(135deg, #fffafa, #ffecec, #ffffff);
+  box-sizing: border-box;
+}
+
+/* ENCABEZADO */
+.charlas-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.charlas-header h2 {
+  font-size: 2.5rem;
+  color: #ff4444;
+  font-weight: 700;
+  text-shadow: 0 0 8px rgba(255, 68, 68, 0.3);
+}
+
+.charlas-header .subtitle {
+  font-size: 1.2rem;
+  color: #9b9a9a;
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+/* TARJETA PRINCIPAL CON GLASS EFFECT */
+.charlas-content {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  padding: 2rem;
+  animation: fadeIn 0.8s ease;
+}
+
+/* TEXTO DE INTRODUCCIÓN */
+.intro-text {
+  text-align: center;
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+.intro-text strong {
+  color: #ff4444;
+}
+
+/* SECCIONES */
+.section {
+  margin-bottom: 2rem;
+}
+
+.section h3 {
+  color: #ff4444;
+  font-size: 1.6rem;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+  text-align: center;
+  text-shadow: 0 0 8px rgba(255, 68, 68, 0.2);
+}
+
+.section p {
+  text-align: center;
+  line-height: 1.6;
+}
+
+/* LISTAS */
+.checklist,
+.target-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+.checklist li,
+.target-list li {
+  padding: 0.5rem 0;
+  font-size: 1.1rem;
+  position: relative;
+  color: #555;
+}
+
+.checklist li::before,
+.target-list li::before {
+  content: "✔";
+  color: #ff4444;
+  font-weight: bold;
+  margin-right: 0.5rem;
+}
+
+/* GRID DE TEMAS */
+.temas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.tema-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  padding: 1.2rem;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tema-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(255, 68, 68, 0.3);
+}
+
+/* ÍCONOS EN TARJETAS - ESTILO CORPORATIVO */
+.tema-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  padding: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.tema-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 28px rgba(255, 68, 68, 0.22);
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.tema-card .icon {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 68, 68, 0.12);
+  border-radius: 50%;
+  padding: 6px;
+  transition: all 0.3s ease;
+}
+
+.tema-card:hover .icon {
+  background: rgba(255, 68, 68, 0.22);
+  transform: scale(2.0);
+}
+
+.tema-card .icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+/* SECCIÓN “POR QUÉ ELEGIR MIS CHARLAS” */
+.highlight-section {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 2rem;
+  box-shadow: 0 8px 25px rgba(255, 68, 68, 0.1);
+}
+
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.why-item {
+  text-align: center;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.why-item strong {
+  display: block;
+  color: #ff4444;
+  font-size: 1.2rem;
+  margin-bottom: 0.3rem;
+}
+
+.why-item:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 20px rgba(255, 68, 68, 0.3);
+}
+
+/* CTA FINAL */
+.cta-section {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.cta-section h3 {
+  font-size: 1.5rem;
+  color: #ff4444;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.cta-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn-primary,
+.btn-secondary {
+  padding: 0.9rem 1.8rem;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background-color: #ff4444;
+  color: #fff;
+  box-shadow: 0 0 15px rgba(255, 68, 68, 0.3);
+}
+
+.btn-primary:hover {
+  background-color: #d32f2f;
+  transform: translateY(-3px);
+  box-shadow: 0 0 25px rgba(255, 68, 68, 0.6);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: #ff4444;
+  border: 2px solid #ff4444;
+}
+
+.btn-secondary:hover {
+  background-color: #ff4444;
+  color: #fff;
+  transform: translateY(-3px);
+}
+
+/* IMÁGENES DE CONFERENCIA */
+.imagen-conferencia {
+  width: 100%;
+  max-width: 900px;
+  margin: 2.5rem auto;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 30px rgba(255, 68, 68, 0.2);
+  transition: transform 0.4s ease;
+}
+
+.imagen-conferencia:hover {
+  transform: scale(1.02);
+}
+
+.imagen-destacada {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 18px;
+  display: block;
+}
+
+/* ANIMACIONES */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* RESPONSIVIDAD */
+@media (max-width: 768px) {
+  .charlas-content {
+    padding: 1.5rem;
+  }
+  .charlas-header h2 {
+    font-size: 2rem;
+  }
+  .temas-grid {
+    grid-template-columns: 1fr;
+  }
+  .why-grid {
+    grid-template-columns: 1fr;
+  }
+  .imagen-conferencia {
+    max-width: 100%;
+    margin: 1.5rem 0;
+  }
+}
+/* === Ajuste visual para reducir el tamaño base de las imágenes === */
+.imagen-conferencia {
+  max-width: 500px; /* antes 900px → reduce un ~25% */
+}
+
+.imagen-destacada {
+  transform: scale(0.9); /* reduce visualmente sin cortar */
+  transition: transform 0.4s ease;
+}
+
+.imagen-conferencia:hover .imagen-destacada {
+  transform: scale(0.97); /* pequeño efecto al pasar el cursor */
+}

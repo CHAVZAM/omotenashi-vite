@@ -1,0 +1,133 @@
+import React, { useState, useEffect } from "react";
+import { ComposableMap, Geographies, Geography } from "react-simple-maps";
+import { Tooltip } from "react-tooltip";
+import "./MapaPercepcion.css";
+
+const mockData = [
+  { countryCode: "170", score: 8.2, source: "Twitter: 150 tweets", dataCount: 150 },
+  { countryCode: "840", score: 6.5, source: "Google Places: 200 reseñas", dataCount: 200 },
+  { countryCode: "392", score: 9.0, source: "Trustpilot: 50 reseñas", dataCount: 50 },
+  { countryCode: "076", score: 3.5, source: "Twitter: 100 tweets", dataCount: 100 },
+];
+
+const getColor = (score: number) => {
+  if (score >= 8.6) return "#2ca9bc"; // Superior
+  if (score >= 7.0) return "#F4C430"; // Bueno
+  if (score >= 4.6) return "#FF9800"; // Deficiente
+  return "#F44336"; // Crítico
+};
+
+const MapaPercepcion: React.FC = () => {
+  const [data, setData] = useState(mockData);
+  const [selectedCountryId, setSelectedCountryId] = useState<string | null>(null);
+  const [selectedCountry, setSelectedCountry] = useState<any | null>(null);
+  const [hoveredCountryId, setHoveredCountryId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setData(mockData);
+  }, []);
+
+  const getCountryColor = (countryCode: string) => {
+    if (hoveredCountryId === countryCode || selectedCountryId === countryCode) {
+      const country = data.find(item => item.countryCode === countryCode);
+      return country ? getColor(country.score) : "#DDD";
+    }
+    return "#DDD"; // Default gray if not hovered or selected
+  };
+
+  const rankedData = [...data].sort((a, b) => b.score - a.score);
+  const getRank = (code: string) => {
+    const index = rankedData.findIndex(item => item.countryCode === code);
+    return index >= 0 ? index + 1 : "-";
+  };
+
+  return (
+    <div className="mapa-container">
+      <h1 className="mapa-title">Percepción del Servicio Global</h1>
+      <button onClick={() => window.location.reload()} className="reload-button">
+        🔄 Actualizar percepción
+      </button>
+      <Tooltip id="map-tooltip" className="glassmorphic-tooltip" />
+
+      <ComposableMap projection="geoMercator" style={{ width: "100%", maxWidth: "800px", height: "500px", background: "#EFEFEF" }}>
+        <Geographies geography="/assets/world-110m.json">
+          {({ geographies }: { geographies: any[] }) =>
+            geographies.map((geo: any) => {
+              const countryCode = geo.id ? String(geo.id) : "";
+              const countryData = data.find(item => item.countryCode === countryCode);
+              const isSelected = selectedCountryId === countryCode;
+
+              return (
+                <Geography
+                  key={`${geo.rsmKey}-${isSelected}`}
+                  geography={geo}
+                  fill={getCountryColor(countryCode)}
+                  stroke="#555"
+                  strokeWidth={0.5}
+                  data-tooltip-id="map-tooltip"
+                  data-tooltip-html={
+                    countryData
+                      ? `<div class='tooltip-content'>
+                          <strong>${geo.properties?.name || "País desconocido"}</strong><br/>
+                          Nivel Omotenashi: <span class='score'>${countryData.score.toFixed(1)}/10</span><br/>
+                          Ranking global: #${getRank(countryCode)}<br/>
+                          Fuente: ${countryData.source}<br/>
+                          Volumen de datos: ${countryData.dataCount}
+                        </div>`
+                      : `<div class='tooltip-content'><strong>${geo.properties?.name || "País desconocido"}</strong><br/>Sin datos disponibles</div>`
+                  }
+                  onMouseEnter={() => setHoveredCountryId(countryCode)}
+                  onMouseLeave={() => setHoveredCountryId(null)}
+                  onClick={() => {
+                    setSelectedCountryId(countryCode);
+                    setSelectedCountry({ name: geo.properties?.name, ...countryData, rank: getRank(countryCode) });
+                  }}
+                  style={{
+                    default: {
+                      outline: "none",
+                      transition: "all 0.3s ease",
+                      transform: isSelected ? "scale(1.04)" : "scale(1)"
+                    },
+                    hover: {
+                      outline: "none",
+                      fill: getCountryColor(countryCode)
+                    },
+                    pressed: { outline: "none" },
+                  }}
+                />
+              );
+            })
+          }
+        </Geographies>
+      </ComposableMap>
+
+      <div className="leyenda">
+        <div className="leyenda-horizontal">
+          <div className="leyenda-item"><div className="color-box" style={{ backgroundColor: "#2ca9bc" }} /> Superior (8.6–9.9)</div>
+          <div className="leyenda-item"><div className="color-box" style={{ backgroundColor: "#F4C430" }} /> Bueno (7.0–8.5)</div>
+          <div className="leyenda-item"><div className="color-box" style={{ backgroundColor: "#FF9800" }} /> Deficiente (4.6–6.9)</div>
+          <div className="leyenda-item"><div className="color-box" style={{ backgroundColor: "#F44336" }} /> Crítico (1.0–4.5)</div>
+        </div>
+        <div className="gradient-bar" />
+        <div className="gradient-labels">
+          <span>Crítico</span>
+          <span>Deficiente</span>
+          <span>Bueno</span>
+          <span>Superior</span>
+        </div>
+      </div>
+
+      {selectedCountry && (
+        <div className="country-card glassmorphic-card">
+          <h2>{selectedCountry.name}</h2>
+          <p><strong>Nivel Omotenashi:</strong> {selectedCountry.score.toFixed(1)}/10</p>
+          <p><strong>Ranking global:</strong> #{selectedCountry.rank}</p>
+          <p><strong>Fuente:</strong> {selectedCountry.source}</p>
+          <p><strong>Volumen de datos:</strong> {selectedCountry.dataCount}</p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default MapaPercepcion;

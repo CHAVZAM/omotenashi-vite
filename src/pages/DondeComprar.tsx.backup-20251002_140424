@@ -1,0 +1,449 @@
+import React, { useState, useEffect } from "react";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import axios from "axios";
+import "./DondeComprar.css";
+import SocialMedia from "../components/FormacionOnline/SocialMedia";
+
+// Imágenes
+const paypalLogo = "https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg";
+const amazonLogo = "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg";
+const googlePlayLogo = "https://upload.wikimedia.org/wikipedia/commons/7/7a/Google_Play_2022_logo.svg";
+const bookCover = "/images/portada.png";
+const cartEmptyIcon = "/images/icons/carritovacio.svg";
+const cartAddIcon = "/images/icons/carritocomprar.svg";
+const cartRemoveIcon = "/images/icons/carritoeliminar.svg";
+const cartConfirmIcon = "/images/icons/carritoconfirmar.svg";
+
+const DondeComprar = () => {
+  const [cart, setCart] = useState({ quantity: 0, price: 19.99 });
+  const [distributors] = useState([
+    "Librería El Ateneo (Buenos Aires)",
+    "Gandhi (Ciudad de México)",
+    "Librería Nacional (San José, Costa Rica)",
+  ]);
+  const [error, setError] = useState<string | null>(null);
+  const [showPayPal, setShowPayPal] = useState(false);
+  // Estado para el formulario de envío
+  const [shippingInfo, setShippingInfo] = useState({
+    recipientName: "",
+    address: "",
+    city: "",
+    phone: "+57",
+    email: "",
+  });
+  const [formDisabled, setFormDisabled] = useState(false);
+  const [formComplete, setFormComplete] = useState(false);
+
+  // Validar si el formulario está completo
+  useEffect(() => {
+    const { recipientName, address, city, phone, email } = shippingInfo;
+    const isPhoneValid = phone.length >= 12; // +57 + 10 dígitos
+    if (recipientName && address && city && isPhoneValid && email) {
+      setFormComplete(true);
+    } else {
+      setFormComplete(false);
+    }
+  }, [shippingInfo]);
+
+  const updateQuantity = (delta: number) => {
+    try {
+      setCart((prev) => ({
+        ...prev,
+        quantity: Math.max(0, prev.quantity + delta),
+      }));
+      setShowPayPal(false);
+      setFormDisabled(false);
+    } catch (err) {
+      setError("Error al actualizar la cantidad. Por favor, intenta de nuevo.");
+    }
+  };
+
+  const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      const value = e.target.value;
+      const parsedValue = parseInt(value, 10);
+      if (!isNaN(parsedValue)) {
+        setCart((prev) => ({
+          ...prev,
+          quantity: Math.max(0, parsedValue),
+        }));
+        setShowPayPal(false);
+        setFormDisabled(false);
+      }
+    } catch (err) {
+      setError("Error al cambiar la cantidad. Por favor, usa un número válido.");
+    }
+  };
+
+  const removeFromCart = () => {
+    try {
+      setCart((prev) => ({
+        ...prev,
+        quantity: 0,
+      }));
+      setShowPayPal(false);
+      setFormDisabled(false);
+      setShippingInfo({
+        recipientName: "",
+        address: "",
+        city: "",
+        phone: "+57",
+        email: "",
+      });
+    } catch (err) {
+      setError("Error al vaciar el carrito. Por favor, intenta de nuevo.");
+    }
+  };
+
+  const handleConfirmPurchase = () => {
+    if (cart.quantity > 0 && formComplete) {
+      setShowPayPal(true);
+      setFormDisabled(true); // Bloquear el formulario al confirmar
+    }
+  };
+
+  const handleShippingChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    if (name === "phone") {
+      if (!value.startsWith("+57")) {
+        setShippingInfo((prev) => ({ ...prev, phone: "+57" }));
+      } else if (value === "+57" && e.target.value.length < 3) {
+        return; // Evitar borrar el prefijo
+      } else {
+        setShippingInfo((prev) => ({ ...prev, phone: value }));
+      }
+    } else {
+      setShippingInfo((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
+  const createOrder = (data: any, actions: any) => {
+    try {
+      return actions.order.create({
+        purchase_units: [
+          {
+            amount: {
+              value: (cart.quantity * cart.price).toFixed(2),
+              currency_code: "COP",
+            },
+            description: "Compra del libro Omotenashi",
+            shipping: {
+              name: { full_name: shippingInfo.recipientName },
+              address: {
+                address_line_1: shippingInfo.address,
+                admin_area_2: shippingInfo.city,
+                country_code: "CO",
+              },
+            },
+          },
+        ],
+        intent: "CAPTURE",
+        application_context: {
+          return_url: "https://rankomotenashi.com/gracias", // Ajusta a tu dominio
+          cancel_url: "https://rankomotenashi.com/cancelar",
+        },
+      });
+    } catch (err) {
+      setError("Error al crear la orden de PayPal. Por favor, intenta de nuevo.");
+      throw err;
+    }
+  };
+
+  const onApprove = async (data: any, actions: any) => {
+    try {
+      const details = await actions.order.capture();
+      console.log("Detalles del pago:", details);
+      // Envío de datos al backend
+      const response = await axios.post(
+        "https://srv1621.hstgr.io/api/orders/create-order", // Ajusta a tu backend
+        {
+          paypalOrderId: details.id,
+          quantity: cart.quantity,
+          totalPrice: (cart.quantity * cart.price).toFixed(2),
+          shippingInfo: shippingInfo,
+        },
+        { headers: { "Content-Type": "application/json" } }
+      );
+      console.log("Respuesta del servidor:", response.data);
+      // Limpiar el estado del frontend después del éxito
+      setCart((prev) => ({
+        ...prev,
+        quantity: 0,
+      }));
+      setShowPayPal(false);
+      setFormDisabled(false);
+      setShippingInfo({
+        recipientName: "",
+        address: "",
+        city: "",
+        phone: "+57",
+        email: "",
+      });
+      alert("¡Pago exitoso! Gracias por tu compra.");
+      // Redirigir si es necesario
+      // window.location.href = "https://rankomotenashi.com/gracias";
+    } catch (err) {
+      console.error("Error al procesar el pago o guardar el pedido:", err);
+      setError("Error al procesar el pago. Por favor, intenta de nuevo.");
+      setShowPayPal(false);
+      setFormDisabled(false);
+      throw err;
+    }
+  };
+
+  const onError = (err: any) => {
+    console.error("PayPal Error:", err);
+    setError("Error en el pago. Por favor, intenta de nuevo. Detalles: " + err.message);
+    setShowPayPal(false);
+    setFormDisabled(false);
+  };
+
+  if (error) {
+    return <div className="error-message">{error}</div>;
+  }
+
+  return (
+    <div className="donde-comprar-container">
+      <h1 className="donde-comprar-title">Dónde Comprar el Libro - Omotenashi</h1>
+      <div className="sections-container">
+        {/* Carrito de Compras - Fila Superior */}
+        <section className="cart-section glassmorphic" aria-label="Carrito de compras">
+          <div className="cart-content-with-shipping">
+            <div className="cart-content">
+              <div className="book-cover-wrapper">
+                <img src={bookCover} alt="Portada del libro Omotenashi" className="book-cover" />
+              </div>
+              <div className="cart-details">
+                <h2 className="section-title">
+                  <img src={cartEmptyIcon} alt="Carrito de compras" className="section-icon" />
+                  Carrito de Compras
+                </h2>
+                <div className="cart-controls">
+                  <label htmlFor="quantity" className="cart-label">Cantidad:</label>
+                  <div className="quantity-controls">
+                    <button
+                      onClick={() => updateQuantity(-1)}
+                      className="quantity-button quantity-decrease"
+                      aria-label="Reducir cantidad"
+                      disabled={cart.quantity === 0 || formDisabled}
+                    >
+                      -
+                    </button>
+                    <input
+                      id="quantity"
+                      type="number"
+                      value={cart.quantity}
+                      onChange={handleQuantityChange}
+                      className="quantity-input"
+                      aria-live="polite"
+                      disabled={formDisabled}
+                    />
+                    <button
+                      onClick={() => updateQuantity(1)}
+                      className="quantity-button quantity-increase"
+                      aria-label="Aumentar cantidad"
+                      disabled={formDisabled}
+                    >
+                      <img src={cartAddIcon} alt="Agregar al carrito" className="inline-icon" />
+                    </button>
+                  </div>
+                </div>
+                <div className="cart-summary">
+                  <p>
+                    Precio unitario: <span className="highlight">${cart.price}</span>
+                  </p>
+                  <p>
+                    Cantidad: <span className="highlight">{cart.quantity}</span>
+                  </p>
+                  <p>
+                    Total: <span className="highlight">${(cart.quantity * cart.price).toFixed(2)}</span>
+                  </p>
+                </div>
+                <div className="cart-actions">
+                  {cart.quantity > 0 && (
+                    <button
+                      onClick={removeFromCart}
+                      className="remove-button"
+                      aria-label="Eliminar del carrito"
+                      disabled={formDisabled}
+                    >
+                      <img src={cartRemoveIcon} alt="Eliminar del carrito" className="inline-icon" />
+                      Vaciar Carrito
+                    </button>
+                  )}
+                  <div className="confirm-button-wrapper">
+                    <button
+                      onClick={handleConfirmPurchase}
+                      className={`animated-button confirm-button ${
+                        cart.quantity === 0 || !formComplete ? "disabled" : ""
+                      }`}
+                      aria-label="Confirmar compra"
+                      disabled={cart.quantity === 0 || !formComplete}
+                    >
+                      <img src={cartConfirmIcon} alt="Confirmar compra" className="inline-icon" />
+                      Confirmar Compra
+                    </button>
+                    {cart.quantity > 0 && formComplete && !showPayPal && (
+                      <span className="confirm-tooltip glassmorphic-tooltip">
+                        Al confirmar la compra, apruebas y confirmas los datos de envío.
+                      </span>
+                    )}
+                  </div>
+                </div>
+                {/* Contenedor del botón de PayPal */}
+                <div className="paypal-container">
+                  {showPayPal && (
+                    <>
+                      <a
+                        href="https://www.paypal.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="logo-with-tooltip"
+                        data-tooltip="Pagar con PayPal"
+                      >
+                        <img src={paypalLogo} alt="PayPal Logo" className="paypal-logo" />
+                      </a>
+                      {/* Provider y Buttons – Esto evita los errores de TS */}
+                      <PayPalScriptProvider
+                        options={{
+                          "clientId": import.meta.env.VITE_PAYPAL_CLIENT_ID,
+                          currency: "COP",
+                          intent: "capture",
+                          "data-environment": "sandbox", // Fuerza sandbox
+                        }}
+                      >
+                        <PayPalButtons
+                          style={{ layout: "vertical" }}
+                          createOrder={createOrder}
+                          onApprove={onApprove}
+                          onError={onError}
+                        />
+                      </PayPalScriptProvider>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>
+            {/* Formulario de Envío */}
+            {cart.quantity > 0 && (
+              <div className="shipping-form glassmorphic">
+                <h3 className="shipping-title">Datos de Envío</h3>
+                <form>
+                  <div className="form-group">
+                    <label htmlFor="recipientName">Nombre de quien recibe:</label>
+                    <input
+                      type="text"
+                      id="recipientName"
+                      name="recipientName"
+                      value={shippingInfo.recipientName}
+                      onChange={handleShippingChange}
+                      disabled={formDisabled}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="email">Correo electrónico:</label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={shippingInfo.email}
+                      onChange={handleShippingChange}
+                      disabled={formDisabled}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="address">Dirección de envío:</label>
+                    <textarea
+                      id="address"
+                      name="address"
+                      value={shippingInfo.address}
+                      onChange={handleShippingChange}
+                      disabled={formDisabled}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="city">Ciudad:</label>
+                    <input
+                      type="text"
+                      id="city"
+                      name="city"
+                      value={shippingInfo.city}
+                      onChange={handleShippingChange}
+                      disabled={formDisabled}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="phone">Número de teléfono:</label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={shippingInfo.phone}
+                      onChange={handleShippingChange}
+                      disabled={formDisabled}
+                      required
+                      pattern="\+57[0-9]{10}"
+                      title="El número debe empezar con +57 seguido de 10 dígitos."
+                    />
+                  </div>
+                </form>
+              </div>
+            )}
+          </div>
+        </section>
+        {/* Fila Inferior: Compra Online y Distribuidores/Librerías */}
+        <div className="bottom-row">
+          <section className="online-purchase-section glassmorphic" aria-label="Opciones de compra online">
+            <h2 className="section-title">Compra Online</h2>
+            <ul className="online-links">
+              <li>
+                <a
+                  href="https://www.amazon.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="logo-with-tooltip online-link"
+                  data-tooltip="Comprar en Amazon"
+                >
+                  <img src={amazonLogo} alt="Amazon Logo" className="online-logo amazon-logo" />
+                  Amazon
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://play.google.com/store/books"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="logo-with-tooltip online-link"
+                  data-tooltip="Comprar en Google Play Libros"
+                >
+                  <img src={googlePlayLogo} alt="Google Play Libros Logo" className="online-logo google-play-logo" />
+                  Google Play Libros
+                </a>
+              </li>
+              <li className="future-link">Enlace adicional (próximamente)</li>
+            </ul>
+          </section>
+          <section className="distributors-section glassmorphic" aria-label="Lista de distribuidores y librerías">
+            <h2 className="section-title">Distribuidores y Librerías</h2>
+            <div className="distributors-list">
+              {distributors.map((distributor, index) => (
+                <p key={index} className="distributor-item">
+                  {distributor}
+                </p>
+              ))}
+            </div>
+          </section>
+        </div>
+        <SocialMedia />
+      </div>
+    </div>
+  );
+};
+
+export default DondeComprar;

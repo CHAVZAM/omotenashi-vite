@@ -1,0 +1,484 @@
+.formacion-online-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh; /* ✅ permite que crezca según el contenido */
+  overflow: visible;
+}
+
+.background-blur {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/images/flordesakura.png"),
+    linear-gradient(45deg, #ffffff, #9b2d30, #ffffff),
+    linear-gradient(135deg, #9b2d30, #534a68, #ffffff),
+    linear-gradient(225deg, #ffffff, #9b2d30, #ffffff),
+    linear-gradient(315deg, #ffffff, #4a5568, #ffffff);
+  background-size: 60%, cover, cover, cover, cover;
+  background-position: center, 0 0, 0 0, 0 0, 0 0;
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat, no-repeat;
+  background-blend-mode: overlay;
+  opacity: 0.15;
+  z-index: 1;
+}
+
+/* Efecto de glasomorfismo para los componentes */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  color: #333333;
+}
+
+/* Ajustes para el login modal */
+.formacion-login-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.formacion-login-modal {
+  text-align: center;
+}
+
+.formacion-login-modal h3 {
+  color: #9b2d30;
+  margin-bottom: 20px;
+}
+
+.formacion-login-modal input {
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 1px solid #9b2d30;
+  border-radius: 5px;
+  color: #333333;
+}
+
+.formacion-login-modal button {
+  padding: 10px 20px;
+  background-color: #9b2d30;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.formacion-login-modal button:hover {
+  background-color: #4a5568;
+}
+
+/* Ajustes para ProgresoGeneral y MenuNiveles */
+.contenido-formacion {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Estilos para el botón de volver */
+.btn-volver {
+  background-color: #9b2d30;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.btn-volver:hover {
+  background-color: #4a5568;
+}
+
+/* Estilos específicos para ProgresoGeneral */
+.progreso-general {
+  text-align: center;
+}
+
+.progreso-general h3 {
+  font-family: "Helvetica", sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 10px;
+}
+
+.progreso-general p {
+  font-family: "Helvetica", sans-serif;
+  font-size: 16px;
+  color: #ffffff;
+  margin-top: 10px;
+}
+
+.barra-progreso {
+  width: 100%;
+  height: 20px;
+  background-color: #ffdfdf;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progreso-llenado {
+  height: 100%;
+  background-color: #9b2d30;
+  border-radius: 10px;
+  transition: width 0.5s ease-in-out;
+}
+
+/* Estilos para los niveles en MenuNiveles (las "tajadas") */
+.niveles-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+  overflow: visible;
+  height: auto;
+  max-height: none;
+}
+
+.nivel-item {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  background-color: #ff9999;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  transform: translateY(-20px);
+  z-index: 3;
+}
+
+.nivel-item:hover {
+  transform: translateY(-25px);
+  background-color: #ffb7c5;
+}
+
+.nivel-item h4 {
+  font-family: "Helvetica", sans-serif;
+  font-size: 18px;
+  color: #ffffff;
+  margin: 0;
+}
+
+.nivel-item p {
+  font-family: "Helvetica", sans-serif;
+  font-size: 14px;
+  color: #ffffff;
+  margin: 5px 0 0;
+}
+
+/* Estilos para las preguntas en Examen */
+.pregunta-container {
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #ffdfdf;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pregunta-container h4 {
+  font-family: "Helvetica", sans-serif;
+  font-size: 16px;
+  color: #9b2d30;
+  margin-bottom: 10px;
+}
+
+.opcion {
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #ffffff;
+  border: 1px solid #9b2d30;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.opcion:hover {
+  background-color: #ffb7c5;
+}
+
+.opcion.seleccionada {
+  background-color: #9b2d30;
+  color: #ffffff;
+}
+
+input[type="text"] {
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #9b2d30;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #9b2d30;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:hover {
+  background-color: #4a5568;
+}
+
+/* Ajuste para el contenedor del nivel visual */
+.formacion-nivel-visual-wrapper {
+  width: 100%;
+  max-width: 800px; /* Limita el ancho máximo */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.1); /* Reduce el efecto de marca de agua */
+  backdrop-filter: blur(4px); /* Mantiene un leve efecto de glasomorfismo */
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.formacion-nivel-visual-wrapper .nivel-column-container {
+  width: 100%;
+  max-width: 500px; /* Limita el ancho de la columna interna */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.formacion-nivel-visual-wrapper .nivel-number {
+  font-family: "Montserrat", sans-serif;
+  font-size: 3rem;
+  color: #9b2d30;
+  margin: 0;
+  text-align: center;
+}
+
+/* Ajuste para pantallas pequeñas */
+@media (max-width: 600px) {
+  .formacion-nivel-visual-wrapper {
+    padding: 10px;
+    max-width: 95%;
+  }
+
+  .formacion-nivel-visual-wrapper .nivel-column-container {
+    max-width: 100%;
+  }
+
+  .formacion-nivel-visual-wrapper .nivel-number {
+    font-size: 2rem;
+  }
+}
+/* ===== PATCH: estilos para InteresModal y CTA ===== */
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.interes-form .grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.interes-form .grid-span-2 {
+  grid-column: 1 / -1;
+}
+.interes-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+}
+.interes-form input,
+.interes-form textarea {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.03);
+  color: #e6ebf2;
+}
+.chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 10px 0 4px;
+}
+.chip {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+  color: #e6ebf2;
+  cursor: pointer;
+  font-size: 13px;
+}
+.chip--sel {
+  border-color: #82e39c;
+  background: rgba(130, 227, 156, 0.12);
+  color: #c6ffd6;
+}
+.ok-msg {
+  margin-top: 8px;
+  color: #82e39c;
+  font-weight: 600;
+}
+.menu-niveles__boton-iniciar-curso.alt {
+  background: #64b5f6;
+  color: #0b0e12;
+}
+/* ===== PATCH: identidad botón secundario + modal por encima ===== */
+.menu-niveles__boton-iniciar-curso.alt {
+  background: #9b2d30; /* rojo Omotenashi */
+  color: #fff;
+  box-shadow: 0 6px 24px rgba(155, 45, 48, 0.35);
+}
+.menu-niveles__boton-iniciar-curso.alt:hover {
+  filter: brightness(1.05);
+}
+
+/* Modal (refuerzo por si hay estilos previos) */
+.modal-backdrop {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 4000 !important;
+}
+.modal.glass {
+  z-index: 4100 !important;
+}
+
+/* Form de interés */
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.interes-form .grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.interes-form .grid-span-2 {
+  grid-column: 1 / -1;
+}
+.interes-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+}
+.interes-form input,
+.interes-form textarea {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.03);
+  color: #e6ebf2;
+}
+.chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 10px 0 4px;
+}
+.chip {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.04);
+  color: #e6ebf2;
+  cursor: pointer;
+  font-size: 13px;
+}
+.chip--sel {
+  border-color: #82e39c;
+  background: rgba(130, 227, 156, 0.12);
+  color: #c6ffd6;
+}
+.ok-msg {
+  margin-top: 8px;
+  color: #82e39c;
+  font-weight: 600;
+}
+/* ===== PATCH: grid areas del formulario de interés ===== */
+.interes-form--areas {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "nombre    apellidos"
+    "profesion telefono"
+    "edad      correo"
+    "chips     chips"
+    "coment    coment"
+    "actions   actions";
+}
+
+.interes-form--areas .ga-nombre {
+  grid-area: nombre;
+}
+.interes-form--areas .ga-apellidos {
+  grid-area: apellidos;
+}
+.interes-form--areas .ga-profesion {
+  grid-area: profesion;
+}
+.interes-form--areas .ga-telefono {
+  grid-area: telefono;
+}
+.interes-form--areas .ga-edad {
+  grid-area: edad;
+}
+.interes-form--areas .ga-correo {
+  grid-area: correo;
+}
+.interes-form--areas .ga-chips {
+  grid-area: chips;
+}
+.interes-form--areas .ga-comentarios {
+  grid-area: coment;
+}
+.interes-form--areas .ga-actions {
+  grid-area: actions;
+}
+
+/* Responsivo: en móvil, 1 columna */
+@media (max-width: 640px) {
+  .interes-form--areas {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "nombre"
+      "apellidos"
+      "profesion"
+      "telefono"
+      "edad"
+      "correo"
+      "chips"
+      "coment"
+      "actions";
+  }
+}
