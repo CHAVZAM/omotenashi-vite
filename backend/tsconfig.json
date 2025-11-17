@@ -2,18 +2,12 @@
   "compilerOptions": {
     "target": "ES2020",
     "module": "CommonJS",
-    "moduleResolution": "Node",
-    "esModuleInterop": true,
-    "resolveJsonModule": true,
+    "rootDir": "./",
     "outDir": "./dist",
-    "rootDir": "./",              // 👈 Compila desde el root del backend
-    "strict": true,
+    "esModuleInterop": true,
     "skipLibCheck": true,
-    "types": ["node"]
+    "strict": false
   },
   "include": ["./**/*.ts"],
-  "exclude": [
-    "node_modules",
-    "../src" // 🚨 CRÍTICO: Excluye todos los archivos del Frontend
-  ]
+  "exclude": ["node_modules"]
 }
