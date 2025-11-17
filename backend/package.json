@@ -27,7 +27,9 @@
     "puppeteer": "^24.14.0",
     "sentiment": "^5.0.2",
     "serverless-http": "^4.0.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "qrcode": "^1.5.4",
+    "@paypal/react-paypal-js": "^4.0.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
