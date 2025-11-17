@@ -5,10 +5,15 @@
     "moduleResolution": "Node",
     "esModuleInterop": true,
     "resolveJsonModule": true,
-    "outDir": "dist",
+    "outDir": "./dist",
+    "rootDir": "./",              // 👈 Compila desde el root del backend
     "strict": true,
     "skipLibCheck": true,
-    "types": ["node"]                 // 👉 necesario para que reconozca "process"
+    "types": ["node"]
   },
-  "include": ["./**/*.ts"]
+  "include": ["./**/*.ts"],
+  "exclude": [
+    "node_modules",
+    "../src" // 🚨 CRÍTICO: Excluye todos los archivos del Frontend
+  ]
 }
