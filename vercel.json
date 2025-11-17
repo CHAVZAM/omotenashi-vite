@@ -11,6 +11,5 @@
       "src": "/api/(.*)",
       "dest": "/backend/api/index.ts"
     }
-  ],
-  "ignoreCommand": "echo 'Ignoring frontend build for Vercel'"
+  ]
 }
