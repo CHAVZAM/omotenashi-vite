@@ -3,7 +3,8 @@ import mysql from "mysql2/promise";
 
 let pool: mysql.Pool | null = null;
 
-export function getPool() {
+// Export nombrado: para usarlo donde lo necesites manualmente
+export function getPool(): mysql.Pool {
   if (!pool) {
     pool = mysql.createPool({
       host: process.env.DB_HOST,
@@ -13,8 +14,12 @@ export function getPool() {
       database: process.env.DB_NAME,
       waitForConnections: true,
       connectionLimit: 5,
-      queueLimit: 0
+      queueLimit: 0,
     });
   }
   return pool;
 }
+
+// Export por defecto: para todo el código que hace `import db from "../db"`
+const db = getPool();
+export default db;
