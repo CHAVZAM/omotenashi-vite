@@ -20,6 +20,14 @@ export function getPool(): mysql.Pool {
   return pool;
 }
 
-// Export por defecto: para todo el código que hace `import db from "../db"`
-const db = getPool();
+// ✅ Export por defecto: compatible con `import db from "../db"`,
+// pero sin crear el pool al importar el módulo.
+type QueryArgs = Parameters<mysql.Pool["query"]>;
+type ExecuteArgs = Parameters<mysql.Pool["execute"]>;
+
+const db = {
+  query: (...args: QueryArgs) => getPool().query(...args),
+  execute: (...args: ExecuteArgs) => getPool().execute(...args),
+} as unknown as mysql.Pool;
+
 export default db;
