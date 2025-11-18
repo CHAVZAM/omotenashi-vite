@@ -7,6 +7,7 @@ import express, {
 } from "express";
 import cors from "cors";
 import multer from "multer";
+import routes from "./routes"; // ✅ Importa el index de rutas
 
 const app: Application = express();
 
@@ -27,16 +28,20 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ✅ Endpoint de salud, SIN BD, SIN RUTAS, SIN NADA EXTERNO
+// ✅ Endpoint de salud
 app.get("/api/health", (req: Request, res: Response) => {
   res.json({
     ok: true,
     message: "API Omotenashi funcionando 🧠✨ (versión mínima)",
+    path: req.path,
     ts: Date.now(),
   });
 });
 
-// Middleware global de errores (por si algo lanza error)
+// ✅ Montar TODAS las rutas bajo /api
+app.use("/api", routes);
+
+// Middleware global de errores (al final)
 app.use(
   (err: Error, req: Request, res: Response, next: NextFunction) => {
     console.error("Error global:", err);
