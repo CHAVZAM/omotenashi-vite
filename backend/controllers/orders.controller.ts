@@ -1,11 +1,10 @@
 import { Request, Response } from "express";
-import db from "../db";
+import { getPool } from "../db";
 import {
   sendPurchaseConfirmationEmail,
   sendAdminNotificationEmail,
 } from "../utils/emailService";
 
-// Define tipos para el cuerpo de la solicitud
 interface ShippingInfo {
   recipientName: string;
   address: string;
@@ -15,12 +14,10 @@ interface ShippingInfo {
   transactionId?: string;
 }
 
-// Extiende el tipo Request de Express para incluir el archivo subido por Multer
 interface CustomRequest extends Request {
   file?: Express.Multer.File;
 }
 
-// Función para generar un ID único
 const generateLocalOrderId = () => {
   return `LOCAL_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
 };
@@ -34,6 +31,7 @@ export const createOrder = async (req: CustomRequest, res: Response) => {
       paymentMethod,
       transactionId,
     } = req.body;
+
     const rawShippingInfo = req.body.shippingInfo;
     const shippingInfo: ShippingInfo =
       typeof rawShippingInfo === "string"
@@ -55,20 +53,19 @@ export const createOrder = async (req: CustomRequest, res: Response) => {
     let proofPath: string | null = null;
     if (isLocalPayment) {
       if (!req.file) {
-        return res
-          .status(400)
-          .json({
-            message:
-              "Comprobante de pago (archivo) es requerido para pagos locales.",
-          });
+        return res.status(400).json({
+          message:
+            "Comprobante de pago (archivo) es requerido para pagos locales.",
+        });
       }
       proofPath = `/uploads/${req.file.filename}`;
     }
 
-    // Usar paypalOrderId para PayPal o generar un ID único para pagos locales
     const orderId = isPayPal ? paypalOrderId : generateLocalOrderId();
 
-    const [orderResult]: any = await db.execute(
+    const pool = getPool();
+
+    const [orderResult]: any = await pool.execute(
       `INSERT INTO orders (
         paypal_order_id, customer_name, customer_email, shipping_address,
         shipping_city, shipping_phone, total_amount, payment_method,
@@ -88,9 +85,10 @@ export const createOrder = async (req: CustomRequest, res: Response) => {
         initialStatus,
       ]
     );
+
     const orderIdInserted = orderResult.insertId;
 
-    await db.execute(
+    await pool.execute(
       `INSERT INTO order_items (order_id, product_name, quantity, price_per_unit)
        VALUES (?, ?, ?, ?)`,
       [
@@ -112,6 +110,7 @@ export const createOrder = async (req: CustomRequest, res: Response) => {
     };
 
     await sendPurchaseConfirmationEmail(orderDetails);
+
     if (isPayPal) {
       await sendAdminNotificationEmail(
         orderDetails,
