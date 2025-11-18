@@ -1,8 +1,9 @@
-import serverless from "serverless-http";
-import app from "../app";
-
-const handler = serverless(app);
-
-export default async function (req: any, res: any) {
-  return handler(req, res);
+// backend/api/index.ts
+export default async function handler(req: any, res: any) {
+  res.status(200).json({
+    ok: true,
+    message: "Función serverless viva (sin Express todavía) ✅",
+    path: req.url,
+    ts: Date.now(),
+  });
 }
