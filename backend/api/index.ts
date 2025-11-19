@@ -8,9 +8,9 @@ export default async function (req: any, res: any) {
     // Cargamos app solo una vez, de forma diferida
     if (!cachedHandler) {
       console.time("serverless_bootstrap");
-      console.log("🔄 Importando app...");
+      console.log("1️⃣ Cargando app.ts...");
       const appModule = await import("../app");
-      console.log("✅ App importada, inicializando handler...");
+      console.log("2️⃣ Carga de app.ts lista, generando handler...");
       const app = appModule.default;
       cachedHandler = serverless(app);
       console.timeEnd("serverless_bootstrap");

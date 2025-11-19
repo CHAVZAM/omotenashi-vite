@@ -10,6 +10,7 @@ import multer from "multer";
 import routes from "./routes"; // ✅ Importa el index de rutas
 
 const app: Application = express();
+console.log("app.ts ▶️ Iniciando configuración de Express…");
 
 // CORS básico (frontend en Hostinger y localhost)
 const allowedOrigins = [
@@ -31,11 +32,14 @@ app.use(
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
+console.log("app.ts ✅ Middleware de CORS configurado");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+console.log("app.ts ✅ Parsers JSON/URL-encoded listos");
 
 // ✅ Endpoint de salud
+console.log("app.ts 🩺 Registrando endpoint /api/health");
 app.get("/api/health", (req: Request, res: Response) => {
   res.json({
     ok: true,
@@ -46,6 +50,7 @@ app.get("/api/health", (req: Request, res: Response) => {
 });
 
 // ✅ Montar TODAS las rutas bajo /api
+console.log("app.ts 🛣️ Registrando router principal en /api");
 app.use("/api", routes);
 
 // Middleware global de errores (al final)
