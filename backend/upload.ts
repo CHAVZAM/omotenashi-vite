@@ -1,13 +1,50 @@
-import multer, { FileFilterCallback } from "multer";
-import path from "path";
+// backend/upload.ts
+
 import fs from "fs";
+import path from "path";
+import multer, { FileFilterCallback } from "multer";
 import { Request } from "express";
 
-const uploadsDir = path.join(process.cwd(), "uploads");
+const isServerlessRuntime = Boolean(
+  process.env.VERCEL ||
+    process.env.AWS_LAMBDA_FUNCTION_VERSION ||
+    process.env.LAMBDA_TASK_ROOT
+);
 
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir, { recursive: true });
-}
+const serverlessUploadsDir = path.posix.join("/tmp", "uploads");
+const localUploadsDir = path.join(process.cwd(), "uploads");
+
+const userDefinedDir = process.env.UPLOADS_DIR;
+
+const computeUploadsDir = (): string => {
+  if (isServerlessRuntime) {
+    if (userDefinedDir && userDefinedDir.startsWith("/tmp")) {
+      return userDefinedDir;
+    }
+    return serverlessUploadsDir;
+  }
+
+  if (userDefinedDir) {
+    return path.resolve(userDefinedDir);
+  }
+
+  return localUploadsDir;
+};
+
+export const uploadsDir = computeUploadsDir();
+
+const ensureUploadsDir = () => {
+  try {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+  } catch (error) {
+    if (!isServerlessRuntime) {
+      throw error;
+    }
+    console.warn("No se pudo crear el directorio temporal en serverless:", error);
+  }
+};
+
+ensureUploadsDir();
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
@@ -48,5 +85,3 @@ export const upload = multer({
     fileSize: 1024 * 1024 * 5,
   },
 });
-
-export { uploadsDir };
