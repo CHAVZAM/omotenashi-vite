@@ -52,3 +52,10 @@ export default tseslint.config({
   },
 })
 ```
+
+## Backend deployment notes
+
+- `npm install` executed at the repository root now runs `npm install --prefix backend` automatically, so the Express API dependencies are available during Vercel builds.
+- The serverless handler (`backend/api/index.ts`) spins up the full Express app through `serverless-http`, and Vercel is configured via `vercel.json` to route every `/api/*` request there.
+- Heavy scraping utilities were migrated to `puppeteer-core` + `@sparticuz/chromium`, which keeps the Lambda bundle size under Vercel’s limits. You can override the Chromium binary with `CHROME_EXECUTABLE_PATH` if you need a custom Chrome build locally.
+- Remember to add the database, email, and optional `CHROME_EXECUTABLE_PATH` environment variables in the Vercel dashboard before deploying.

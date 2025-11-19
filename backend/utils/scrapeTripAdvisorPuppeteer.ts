@@ -1,4 +1,4 @@
-import puppeteer from "puppeteer";
+import { launchServerlessBrowser } from "./browser";
 
 export interface ScrapedComment {
   text: string;
@@ -16,7 +16,7 @@ export const scrapeTripAdvisorPuppeteer = async (
   url: string,
   limit: number = 20
 ): Promise<ScrapedComment[]> => {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await launchServerlessBrowser();
   const page = await browser.newPage();
 
   try {

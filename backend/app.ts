@@ -12,13 +12,20 @@ import routes from "./routes"; // ✅ Importa el index de rutas
 const app: Application = express();
 
 // CORS básico (frontend en Hostinger y localhost)
+const allowedOrigins = [
+  "https://www.rankomotenashi.com",
+  "https://rankomotenashi.com",
+  "http://localhost:5173",
+];
+
 app.use(
   cors({
-    origin: [
-      "https://www.rankomotenashi.com",
-      "https://rankomotenashi.com",
-      "http://localhost:5173",
-    ],
+    origin(origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+      return callback(null, false);
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
