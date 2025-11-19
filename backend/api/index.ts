@@ -1,9 +1,10 @@
 // backend/api/index.ts
-export default async function handler(req: any, res: any) {
-  res.status(200).json({
-    ok: true,
-    message: "Función serverless viva (sin Express todavía) ✅",
-    path: req.url,
-    ts: Date.now(),
-  });
+import serverless from "serverless-http";
+import app from "../app";
+
+const expressHandler = serverless(app);
+
+// Handler que invoca Vercel para cualquier /api/*
+export default async function (req: any, res: any) {
+  return expressHandler(req, res);
 }
