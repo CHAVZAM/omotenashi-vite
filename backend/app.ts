@@ -44,6 +44,26 @@ app.get("/api/health", (req: Request, res: Response) => {
   });
 });
 
+// ✅ Endpoint de salud de Base de Datos
+app.get("/api/health/db", async (req: Request, res: Response) => {
+  try {
+    const db = (await import("./db")).default;
+    await db.query("SELECT 1");
+    res.json({
+      ok: true,
+      message: "Conexión a BD exitosa 🗄️✅",
+      ts: Date.now(),
+    });
+  } catch (error: any) {
+    console.error("Error de conexión a BD:", error);
+    res.status(500).json({
+      ok: false,
+      message: "Error conectando a la BD 💥",
+      error: error.message,
+    });
+  }
+});
+
 // ✅ Montar TODAS las rutas bajo /api
 console.log("app.ts 🛣️ Registrando router principal en /api");
 app.use("/api", routes);
