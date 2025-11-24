@@ -2,10 +2,9 @@ import { Request, Response } from "express";
 import { getPool } from "../db";
 import { updateAllPerceptionScores } from "../services/perceptionService";
 
-const pool = getPool();
-
 export const getMapaData = async (req: Request, res: Response) => {
   try {
+    const pool = getPool(); // ✅ Lazy init
     const [rows]: any = await pool.execute(
       "SELECT country_code, country_name, score, source, data_count FROM paises_percepcion"
     );
@@ -27,6 +26,7 @@ export const getMapaData = async (req: Request, res: Response) => {
 export const getCountryData = async (req: Request, res: Response) => {
   const { countryCode } = req.params;
   try {
+    const pool = getPool(); // ✅ Lazy init
     const [rows]: any = await pool.execute(
       "SELECT country_code, country_name, score, source, data_count FROM paises_percepcion WHERE country_code = ?",
       [countryCode]
@@ -63,6 +63,7 @@ export const updateCountryScore = async (req: Request, res: Response) => {
   }
 
   try {
+    const pool = getPool(); // ✅ Lazy init
     const [result]: any = await pool.execute(
       "UPDATE paises_percepcion SET score = ?, source = ?, data_count = ? WHERE country_code = ?",
       [score, source, data_count, countryCode]

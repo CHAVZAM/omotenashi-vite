@@ -1,8 +1,6 @@
 import { Request, Response } from "express";
 import { getPool } from "../db";
 
-const pool = getPool();
-
 // 1. Endpoint para OBTENER el progreso del usuario
 export const getProgreso = async (req: Request, res: Response) => {
   try {
@@ -12,6 +10,7 @@ export const getProgreso = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "ID de usuario no válido." });
     }
 
+    const pool = getPool(); // ✅ Lazy init
     const [rows] = await pool.execute(
       `SELECT nivel, completado, aprobado 
        FROM user_progreso 
@@ -41,6 +40,7 @@ export const completarNivel = async (req: Request, res: Response) => {
 
     const fechaAprobacion = aprobado ? new Date() : null;
 
+    const pool = getPool(); // ✅ Lazy init
     await pool.execute(
       `INSERT INTO user_progreso (user_id, nivel, completado, aprobado, fecha_aprobacion) 
        VALUES (?, ?, ?, ?, ?)

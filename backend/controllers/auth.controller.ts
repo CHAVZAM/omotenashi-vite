@@ -2,8 +2,6 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import { getPool } from "../db";
 
-const pool = getPool();
-
 export const registerUser = async (req: Request, res: Response) => {
   try {
     const { username, email, password, avatar_url } = req.body;
@@ -12,6 +10,7 @@ export const registerUser = async (req: Request, res: Response) => {
       return res.status(400).json({ message: "Faltan campos obligatorios." });
     }
 
+    const pool = getPool(); // ✅ Lazy init
     const [existing] = await pool.query("SELECT id FROM users WHERE email = ?", [email]);
     if ((existing as any[]).length > 0) {
       return res.status(409).json({ message: "El correo ya está registrado." });
@@ -35,6 +34,7 @@ export const loginUser = async (req: Request, res: Response) => {
   const { email, password } = req.body;
 
   try {
+    const pool = getPool(); // ✅ Lazy init
     const [results] = await pool.query("SELECT * FROM users WHERE email = ?", [email]);
     const users = results as any[];
 

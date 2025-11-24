@@ -1,11 +1,10 @@
 import { Request, Response } from "express";
 import { getPool } from "../db";
 
-const pool = getPool();
-
 // --- GET: obtener todas las estadísticas del sitio
 export const getSiteStats = async (req: Request, res: Response) => {
   try {
+    const pool = getPool(); // ✅ Lazy init
     const [rows]: any = await pool.execute(
       `
       SELECT home_page_visits, calcula_omotenashi_interactions, certificates_delivered
@@ -32,6 +31,7 @@ export const getSiteStats = async (req: Request, res: Response) => {
 
 export const updateHomePageVisits = async (req: Request, res: Response) => {
   try {
+    const pool = getPool(); // ✅ Lazy init
     await pool.execute(
       `
       INSERT INTO estadisticas_sitio (id, home_page_visits)
@@ -54,6 +54,7 @@ export const updateCalculaOmotenashiInteractions = async (
   res: Response
 ) => {
   try {
+    const pool = getPool(); // ✅ Lazy init
     await pool.execute(
       `
       INSERT INTO estadisticas_sitio (id, calcula_omotenashi_interactions)
@@ -73,6 +74,7 @@ export const updateCalculaOmotenashiInteractions = async (
 
 export const updateCertificates = async (req: Request, res: Response) => {
   try {
+    const pool = getPool(); // ✅ Lazy init
     await pool.execute(
       `
       INSERT INTO estadisticas_sitio (id, certificates_delivered)
@@ -120,6 +122,7 @@ export const setBaseStats = async (req: Request, res: Response) => {
         .json({ ok: false, error: "No se proporcionaron campos válidos." });
     }
 
+    const pool = getPool(); // ✅ Lazy init
     await pool.execute(
       `UPDATE estadisticas_sitio SET ${fields.join(", ")} WHERE id=1`,
       values
