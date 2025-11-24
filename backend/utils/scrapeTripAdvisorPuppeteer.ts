@@ -1,4 +1,5 @@
-import { launchServerlessBrowser } from "./browser";
+// backend/utils/scrapeTripAdvisorPuppeteer.ts
+// import { launchServerlessBrowser } from "./browser"; // <-- ELIMINAR IMPORT EAGER
 
 export interface ScrapedComment {
   text: string;
@@ -16,6 +17,8 @@ export const scrapeTripAdvisorPuppeteer = async (
   url: string,
   limit: number = 20
 ): Promise<ScrapedComment[]> => {
+  // ✅ Lazy Import: Carga browser.ts solo aquí
+  const { launchServerlessBrowser } = await import("./browser");
   const browser = await launchServerlessBrowser();
   const page = await browser.newPage();
 

@@ -1,6 +1,5 @@
 // backend/routes/testScrape.routes.ts
 import { Router, Request, Response } from 'express';
-import { scrapeTripAdvisorPuppeteer } from '../utils/scrapeTripAdvisorPuppeteer';
 
 const router = Router();
 
@@ -8,6 +7,9 @@ router.get('/test-scrape', async (req: Request, res: Response) => {
   const url = req.query.url as string || 'https://www.tripadvisor.com.mx/ShowUserReviews-g147249-d148673-r823715031-Eagle_Aruba_Resort-Palm_Eagle_Beach_Aruba.html';
 
   try {
+    // ✅ Lazy Import: Solo carga Puppeteer si se llama a esta ruta
+    const { scrapeTripAdvisorPuppeteer } = await import('../utils/scrapeTripAdvisorPuppeteer');
+    
     const data = await scrapeTripAdvisorPuppeteer(url, 20);
 
     if (data.length === 0) {
