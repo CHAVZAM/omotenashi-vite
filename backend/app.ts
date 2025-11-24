@@ -1,10 +1,5 @@
 // backend/app.ts
-import express, {
-  Application,
-  Request,
-  Response,
-  NextFunction,
-} from "express";
+import express, { Application, Request, Response, NextFunction } from "express";
 import cors from "cors";
 import multer from "multer";
 import routes from "./routes"; // ✅ Importa el index de rutas
@@ -54,16 +49,12 @@ console.log("app.ts 🛣️ Registrando router principal en /api");
 app.use("/api", routes);
 
 // Middleware global de errores (al final)
-app.use(
-  (err: Error, req: Request, res: Response, next: NextFunction) => {
-    console.error("Error global:", err);
-    if (err instanceof multer.MulterError) {
-      return res
-        .status(400)
-        .json({ message: `Error de subida: ${err.message}` });
-    }
-    return res.status(500).json({ message: "Error interno del servidor" });
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  console.error("Error global:", err);
+  if (err instanceof multer.MulterError) {
+    return res.status(400).json({ message: `Error de subida: ${err.message}` });
   }
-);
+  return res.status(500).json({ message: "Error interno del servidor" });
+});
 
 export default app;
