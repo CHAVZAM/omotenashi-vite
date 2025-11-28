@@ -4,6 +4,8 @@ import "./Login.css";
 
 const Login: React.FC = () => {
   const navigate = useNavigate();
+  const API_URL =
+    import.meta.env.VITE_API_URL || "https://omotenashi-vite.vercel.app";
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -15,7 +17,7 @@ const Login: React.FC = () => {
     }
 
     try {
-      const response = await fetch("http://localhost:3001/api/auth/login", {
+      const response = await fetch(`${API_URL}/api/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),

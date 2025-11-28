@@ -46,6 +46,8 @@ export interface Experience {
 type FormExperienceType = "historias_inspiran" | "necesitas_omotenashi";
 
 const BlogExperiencias: React.FC = () => {
+  const API_URL =
+    import.meta.env.VITE_API_URL || "https://omotenashi-vite.vercel.app";
   // Datos ficticios (mantén los que ya tienes)
   const [posts, setPosts] = useState<Post[]>([
     {
@@ -481,7 +483,7 @@ const BlogExperiencias: React.FC = () => {
 
     // Paso 4: Enviar la petición POST al backend
     try {
-      const response = await fetch("http://localhost:3001/api/posts", {
+      const response = await fetch(`${API_URL}/api/posts`, {
         method: "POST",
         body: dataToSend, // FormData se encarga de configurar el 'Content-Type' adecuado
       });

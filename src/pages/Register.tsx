@@ -4,6 +4,8 @@ import './Register.css';
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
+  const API_URL =
+    import.meta.env.VITE_API_URL || "https://omotenashi-vite.vercel.app";
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -18,7 +20,7 @@ const Register: React.FC = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:3001/api/auth/register', {
+      const response = await fetch(`${API_URL}/api/auth/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

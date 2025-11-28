@@ -10,7 +10,8 @@ type Stats = {
 
 const AdminStats: React.FC = () => {
   const [stats, setStats] = useState<Stats | null>(null);
-  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+  const API_URL =
+    import.meta.env.VITE_API_URL || "https://omotenashi-vite.vercel.app";
 
   useEffect(() => {
     (async () => {

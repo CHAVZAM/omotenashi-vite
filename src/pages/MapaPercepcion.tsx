@@ -27,6 +27,8 @@ const getColor = (score: number) => {
 };
 
 const MapaPercepcion: React.FC = () => {
+  const API_URL =
+    import.meta.env.VITE_API_URL || "https://omotenashi-vite.vercel.app";
   // Inicializamos con un array vacío, ya que los datos vendrán del backend
   const [data, setData] = useState<CountryData[]>([]);
   const [loading, setLoading] = useState<boolean>(true); // Nuevo estado para controlar la carga
@@ -45,7 +47,7 @@ const MapaPercepcion: React.FC = () => {
     setLoading(true); // Establece el estado de carga a true al iniciar la petición
     setError(null); // Limpia cualquier error previo
     try {
-      const response = await fetch("http://localhost:3001/api/mapa");
+      const response = await fetch(`${API_URL}/api/mapa`);
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }

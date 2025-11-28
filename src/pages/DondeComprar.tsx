@@ -20,6 +20,8 @@ const cartRemoveIcon = "/images/icons/carritoeliminar.svg";
 const cartConfirmIcon = "/images/icons/carritoconfirmar.svg";
 
 const DondeComprar = () => {
+  const API_URL =
+    import.meta.env.VITE_API_URL || "https://omotenashi-vite.vercel.app";
   // Precio actualizado
   const [cart, setCart] = useState({ quantity: 0, price: 60000 });
   const [distributors] = useState([
@@ -187,7 +189,7 @@ const DondeComprar = () => {
       const details = await actions.order.capture();
       console.log("Detalles del pago:", details);
       const response = await axios.post(
-        "http://localhost:3001/api/orders/create-order",
+        `${API_URL}/api/orders/create-order`,
         {
           paypalOrderId: details.id,
           quantity: cart.quantity,
@@ -236,7 +238,7 @@ const DondeComprar = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3001/api/orders/create-order",
+        `${API_URL}/api/orders/create-order`,
         formData,
         {
           headers: {
