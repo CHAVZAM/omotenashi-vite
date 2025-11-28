@@ -1,43 +1,38 @@
 // backend/routes/index.ts (SOLO RUTAS, SIN LOGICA DE MULTER)
 
-import { Router } from "express";
-import postsRoutes from "./posts.routes";
-import mapaRoutes from "./mapa.routes";
-import statsRoutes from "./stats.routes";
-import authRoutes from "./auth.routes";
-import testScrapeRoutes from "./testScrape.routes";
-import ordersRoutes from "./orders.routes"; // <-- IMPORTA EL NUEVO ROUTER
-import formacionRoutes from './formacion.routes'; // <-- NUEVA IMPORTACIÓN
-import interesRoutes from "./interesRoutes"; // === PATCH: agregar
-import certificadosRoutes from "./certificadosRoutes";
-import userProgresoRoutes from "./userProgresoRoutes";
+import { Router, Request, Response, NextFunction } from "express";
 
 const router = Router();
 console.log("routes/index.ts ▶️ Inicializando router principal");
 
-// Rutas existentes
-console.log("routes/index.ts ➜ Registrando /posts");
-router.use("/posts", postsRoutes);
-console.log("routes/index.ts ➜ Registrando /mapa");
-router.use("/mapa", mapaRoutes);
-console.log("routes/index.ts ➜ Registrando /stats");
-router.use("/stats", statsRoutes);
-console.log("routes/index.ts ➜ Registrando /auth");
-router.use("/auth", authRoutes);
-console.log("routes/index.ts ➜ Registrando /test");
-router.use("/test", testScrapeRoutes);
-console.log("routes/index.ts ➜ Registrando /formacion");
-router.use('/formacion', formacionRoutes);
-console.log("routes/index.ts ➜ Registrando /interes");
-router.use("/interes", interesRoutes); // === PATCH: agregar
-console.log("routes/index.ts ➜ Registrando /certificados");
-router.use("/certificados", certificadosRoutes);
-console.log("routes/index.ts ➜ Registrando /user-progreso");
-router.use("/user-progreso", userProgresoRoutes);
+// Helper para carga perezosa (Lazy Loading)
+const lazyLoad = (importFn: () => Promise<any>) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const module = await importFn();
+      const router = module.default;
+      router(req, res, next);
+    } catch (error) {
+      console.error("Error cargando ruta perezosa:", error);
+      next(error);
+    }
+  };
+};
 
-// 🚨 SOLUCIÓN CLAVE: AÑADIMOS LA RUTA DE ÓRDENES EN SU PROPIO ARCHIVO
-console.log("routes/index.ts ➜ Registrando /orders");
-router.use("/orders", ordersRoutes);
-console.log("routes/index.ts ✅ Todos los routers montados");
+// Rutas existentes con Lazy Loading
+console.log("routes/index.ts ➜ Registrando rutas (Lazy)");
+
+router.use("/posts", lazyLoad(() => import("./posts.routes")));
+router.use("/mapa", lazyLoad(() => import("./mapa.routes")));
+router.use("/stats", lazyLoad(() => import("./stats.routes")));
+router.use("/auth", lazyLoad(() => import("./auth.routes")));
+router.use("/test", lazyLoad(() => import("./testScrape.routes")));
+router.use("/formacion", lazyLoad(() => import("./formacion.routes")));
+router.use("/interes", lazyLoad(() => import("./interesRoutes")));
+router.use("/certificados", lazyLoad(() => import("./certificadosRoutes")));
+router.use("/user-progreso", lazyLoad(() => import("./userProgresoRoutes")));
+router.use("/orders", lazyLoad(() => import("./orders.routes")));
+
+console.log("routes/index.ts ✅ Todos los routers montados (Lazy)");
 
 export default router;
