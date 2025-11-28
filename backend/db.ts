@@ -13,9 +13,9 @@ export function getPool(): mysql.Pool {
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
       waitForConnections: true,
-      connectionLimit: 5,
+      connectionLimit: 1, // Reducir conexiones simultáneas para serverless
       queueLimit: 0,
-      connectTimeout: 10000, // 10s timeout
+      connectTimeout: 2000, // 2s timeout (fail fast)
       enableKeepAlive: true,
     });
   }
